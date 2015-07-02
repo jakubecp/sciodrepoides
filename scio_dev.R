@@ -27,14 +27,14 @@ plot (wrld_simpl, add=T)
 #choose the right (important) climatic variables (http://www.worldclim.org/bioclim) 
 #for your species and stack them! USE ENFA (package adehabitat) for selection of the right variables 
 #if you do not know a lot about them
-setwd ("C:/Users/pavel/Downloads/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/")
-
+setwd ("C:/Users/pavel/Downloads/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/") #home
+setwd ("F:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/") #university
 ?enfa
 variable<- stack (c("bio10.bil", "bio18.bil", "bio8.bil", "bio16.bil"))
 
 #optional-if you are interested in more local (and quicker) predictions 
 #make an object (e) of certain extant (xmin, xmax, ymin, ymax) for croping
-e<-extent (-120,40,30,70)
+e<-extent (-20,90,30,80)
 #crop your climatic maps
 variable_crop<- crop (variable, e)
 
@@ -74,14 +74,30 @@ maxent_all2@results[5]
 maxent_all5@results[5]
 
 #Predict probability of occurence
-maxent_all_predict<- predict (maxent_all5, variable_crop)
+maxent_all_predict<- predict (maxent_all, variable_crop)
 
-#Plot the prediction
+#Plot the prediction20,70,30,70
 X11()
 plot (maxent_all_predict, 
-      main="Sciodrepoides watsoni distribution (Maxent/all)", xlim =c(-120,40),ylim=c(30,70) )
-plot (wrld_simpl, add=TRUE, xlim=c(-120,40),ylim=c(30,70))
+      main="Sciodrepoides watsoni distribution (Maxent/all)", xlim =c(-20,90),ylim=c(30,80) )
+plot (wrld_simpl, add=TRUE, xlim=c(-20,90),ylim=c(30,80))
 
+#experiments with maps - This is IT!!!
+library (ggplot2)
+library (rJava)
+library (rworldmap)
+newmap = getMap(resolution="low")
+X11()
+plot (maxent_all_predict, legend=F, xlim=c(-20,90), ylim=c(30,80))
+plot (newmap, xlim=c(-20,90), ylim=c(30,80), add=T)
+
+##EXport to TIFF
+setwd ("C:/Users/jakubecp/Dropbox/Projects/sciodrepoides/sciodrepoides/") #skola
+tiff (filename="sciodrepoides.tiff", width=5000, height=5000, 
+      compression="lzw", res= 800)
+plot (maxent_all_predict, legend=F, xlim=c(-20,90), ylim=c(30,80), axes=FALSE, bty="n")
+plot (newmap, xlim=c(-20,90), ylim=c(30,80), add=T, axes=FALSE, bty="n")
+dev.off()
 #EVALUATION OF THE MAXENT MODEL
 #crete object with random split of the data into k(5) subsamples by kfold
 fold <- kfold(coord,k=5)
