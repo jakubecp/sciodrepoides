@@ -11,6 +11,8 @@ library (maps)
 library (testthat)
 library (adehabitatHS)
 library (roxygen2)
+#install.packages("spocc")
+library (spocc)
 data(wrld_simpl) #create the World map with borders
 
 #RAW data from GBIF (only records with coordinates and you should set up upper limit of them)
