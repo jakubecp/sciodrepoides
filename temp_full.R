@@ -1,7 +1,6 @@
 rm(list = ls())
-setwd ("C:/Users/pavel/Downloads/Disk Google/Disertace/Data/") #doma google disk
-setwd ("C:/Users/pavel/Downloads/Dropbox/Data/") #doma dropbox
-setwd ("C:/Users/jakubecp/Dropbox/Data/") #skola
+setwd ("C:/Users/pavel/Downloads/Dropbox/Projects\sciodrepoides\sciodrepoides\Data/") #doma dropbox
+setwd ("C:/Users/jakubecp/Dropbox\Projects\sciodrepoides\sciodrepoides/Data/") #skola
 data = read.csv("cholevinae_full.csv", header=TRUE, sep = ";")
 head(data)
 summary(data)
