@@ -1,0 +1,6 @@
+rm(list = ls())
+setwd ("C:/Users/pavel/Downloads/Disk Google/Disertace/Data/")
+data = read.csv("cholevinae_full.csv", header=TRUE, sep = ";")
+head(data)
+summary(data)
+class(data$temp)
