@@ -24,6 +24,37 @@ coord <- data.frame (long = Sciod.watsoni$data$decimalLongitude ,
 X11()
 plot (coord)
 plot (wrld_simpl, add=T)
+
+## SPOCC SEARCH - zmenit na Sciodrepoides watsoni az na to bude cas a asi 
+#sloucit s daty z CR
+hip.herm= occ (query="Hipparchia hermione", 
+                    from="gbif", 
+                 gbifopts=list(hasCoordinate=TRUE)
+                    ,limit= 5000)
+hip.alc= occ (query="Hipparchia alcyone", 
+                 from="gbif", 
+                 gbifopts=list(hasCoordinate=TRUE)
+                 ,limit= 5000)
+
+sciod.bison = occ (query="Sciodrepoides watsoni", 
+                   from="bison", 
+                   bisonopts=list(hasCoordinate=TRUE),
+                   limit= 5000)
+
+
+hip.herm=occ2df(hip.herm)
+hip.alc=occ2df(hip.alc)
+
+coord.herm = data.frame (long=hip.herm$longitude,
+                          lat=hip.herm$latitude)
+coord.alc = data.frame (long=hip.alc$longitude,
+                          lat=hip.alc$latitude)
+coord.hipp = coord.herm + coord.alc
+X11()
+plot (coord.alc)
+plot (wrld_simpl, add=TRUE)
+
+?occ2df
 #choose the right (important) climatic variables (http://www.worldclim.org/bioclim) 
 #for your species and stack them! USE ENFA (package adehabitat) for selection of the right variables 
 #if you do not know a lot about them
