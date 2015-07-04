@@ -11,30 +11,29 @@ library (maps)
 library (testthat)
 library (adehabitatHS)
 library (roxygen2)
-#install.packages("spocc")
+#install.packages("testthat")
 library (spocc)
-data(wrld_simpl) #create the World map with borders
+library (rworldmap)
+newmap = getMap(resolution="low") #function from package rworldmap
+
+
 
 #RAW data from GBIF (only records with coordinates and you should set up upper limit of them)
-Sciod.watsoni<- occ_search(scientificName = "Sciodrepoides watsoni",
-                           hasCoordinate= TRUE, limit = 3215)
-#coordinates of observations (filter out NAs and obvious mistakes!)
-coord <- data.frame (long = Sciod.watsoni$data$decimalLongitude ,
-                     lat= Sciod.watsoni$data$decimalLatitude)
-X11()
-plot (coord)
-plot (wrld_simpl, add=T)
+# Sciod.watsoni<- occ_search(scientificName = "Sciodrepoides watsoni",
+#                            hasCoordinate= TRUE, limit = 3215)
+# #coordinates of observations (filter out NAs and obvious mistakes!)
+# coord <- data.frame (long = Sciod.watsoni$data$decimalLongitude ,
+#                      lat= Sciod.watsoni$data$decimalLatitude)
+# X11()
+# plot (coord)
+# plot (wrld_simpl, add=T)
 
 ## SPOCC SEARCH - zmenit na Sciodrepoides watsoni az na to bude cas a asi 
 #sloucit s daty z CR
-hip.herm= occ (query="Hipparchia hermione", 
+scio.gbif= occ (query="Sciodrepoides watsoni", 
                     from="gbif", 
                  gbifopts=list(hasCoordinate=TRUE)
                     ,limit= 5000)
-hip.alc= occ (query="Hipparchia alcyone", 
-                 from="gbif", 
-                 gbifopts=list(hasCoordinate=TRUE)
-                 ,limit= 5000)
 
 sciod.bison = occ (query="Sciodrepoides watsoni", 
                    from="bison", 
@@ -42,17 +41,19 @@ sciod.bison = occ (query="Sciodrepoides watsoni",
                    limit= 5000)
 
 
-hip.herm=occ2df(hip.herm)
-hip.alc=occ2df(hip.alc)
+scio.gbif=occ2df(scio.gbif)
+scio.bison=occ2df(sciod.bison)
 
-coord.herm = data.frame (long=hip.herm$longitude,
-                          lat=hip.herm$latitude)
-coord.alc = data.frame (long=hip.alc$longitude,
-                          lat=hip.alc$latitude)
-coord.hipp = coord.herm + coord.alc
+coord.gbif = data.frame (long=scio.gbif$longitude,
+                          lat=scio.gbif$latitude)
+coord.bison = data.frame (long=scio.bison$longitude,
+                          lat=scio.bison$latitude)
+
 X11()
-plot (coord.alc)
-plot (wrld_simpl, add=TRUE)
+plot (newmap, xlim=c(-120,100), ylim=c(-80,80))
+points (coord.gbif, col="blue")
+points (coord.bison, col="red")
+
 
 ?occ2df
 #choose the right (important) climatic variables (http://www.worldclim.org/bioclim) 
@@ -123,7 +124,8 @@ plot (maxent_all_predict, legend=F, xlim=c(-20,90), ylim=c(30,80))
 plot (newmap, xlim=c(-20,90), ylim=c(30,80), add=T)
 
 ##EXport to TIFF
-setwd ("C:/Users/jakubecp/Dropbox/Projects/sciodrepoides/sciodrepoides/") #skola
+getwd()
+setwd ("Projects/sciodrepoides/sciodrepoides/") #skola
 tiff (filename="sciodrepoides.tiff", width=5000, height=5000, 
       compression="lzw", res= 800)
 plot (maxent_all_predict, legend=F, xlim=c(-20,90), ylim=c(30,80), axes=FALSE, bty="n")
