@@ -1,7 +1,5 @@
 rm(list = ls())
-setwd ("C:/Users/pavel/Downloads/Dropbox/Projects/sciodrepoides/sciodrepoides/Data/") #doma dropbox
-setwd ("C:/Users/jakubecp/Dropbox/Projects/sciodrepoides/sciodrepoides/Data/") #skola
-data = read.csv("sciodrepoides_delka_r.csv", header=TRUE, sep = ";")
+data = read.csv("Data/sciodrepoides_delka_r.csv", header=TRUE, sep = ";")
 head(data)
 summary(data$instar)
 class(data$instar)
