@@ -1,32 +1,34 @@
 rm(list = ls())
-library (rgbif)
-library (raster)
-library (maptools)
-library (XML)
-library (rgdal)
-library (dismo)
-library (rgdal)
-library (sqldf)
-library (maps)
-library (testthat)
-library (adehabitatHS)
-library (roxygen2)
-#install.packages("testthat")
-library (spocc)
-library (rworldmap)
+install.packages(c("rgbif", "raster", "maptools", "XML", "rgdal", "dismo", 
+                 "sqldf", "maps", "testthat", "adehabitatsHS", 
+                 "roxygen2", "spocc","rworldmap", "ggplot2", "rJava"))
+install.packages("rgbif")
+library (rgbif) #mrtvy
+library (raster) #OK
+library (maptools) #nevim
+library (XML) #mrtvy
+library (rgdal) #mrtvy
+library (dismo) #OK
+library (sqldf) #OK
+library (maps) #OK
+library (testthat) #OK
+library (adehabitatHS) #OK
+library (roxygen2) #OK
+library (spocc) #mrtvy
+library (rJava) #OK
+library (rworldmap) #OK
 newmap = getMap(resolution="low") #function from package rworldmap
 
-
-
+install.packages("spocc", dependencies = TRUE)
 #RAW data from GBIF (only records with coordinates and you should set up upper limit of them)
-# Sciod.watsoni<- occ_search(scientificName = "Sciodrepoides watsoni",
-#                            hasCoordinate= TRUE, limit = 3215)
-# #coordinates of observations (filter out NAs and obvious mistakes!)
-# coord <- data.frame (long = Sciod.watsoni$data$decimalLongitude ,
-#                      lat= Sciod.watsoni$data$decimalLatitude)
-# X11()
-# plot (coord)
-# plot (wrld_simpl, add=T)
+Sciod.watsoni<- occ_search(scientificName = "Sciodrepoides watsoni",
+                           hasCoordinate= TRUE, limit = 3215)
+#coordinates of observations (filter out NAs and obvious mistakes!)
+coord <- data.frame (long = Sciod.watsoni$data$decimalLongitude ,
+                     lat= Sciod.watsoni$data$decimalLatitude)
+X11()
+plot (coord)
+plot (newmap, add=T)
 
 ## SPOCC SEARCH - zmenit na Sciodrepoides watsoni az na to bude cas a asi 
 #sloucit s daty z CR
@@ -57,9 +59,10 @@ points (coord.bison, col="red")
 
 ?occ2df
 #choose the right (important) climatic variables (http://www.worldclim.org/bioclim) 
-#for your species and stack them! USE ENFA (package adehabitat) for selection of the right variables 
-#if you do not know a lot about them
-setwd ("C:/Users/pavel/Downloads/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/") #home
+#for your species and stack them! USE ENFA (package adehabitat) for selection of the 
+#right variables if you do not know a lot about them
+setwd ("C:/Users/pavel/Downloads/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climatic_layers/
+       worldclim/") #home
 setwd ("F:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/") #university
 ?enfa
 variable<- stack (c("bio10.bil", "bio18.bil", "bio8.bil", "bio16.bil"))
@@ -112,7 +115,7 @@ maxent_all_predict<- predict (maxent_all, variable_crop)
 X11()
 plot (maxent_all_predict, 
       main="Sciodrepoides watsoni distribution (Maxent/all)", xlim =c(-20,90),ylim=c(30,80) )
-plot (wrld_simpl, add=TRUE, xlim=c(-20,90),ylim=c(30,80))
+plot (newmap, add=TRUE, xlim=c(-20,90),ylim=c(30,80))
 
 #experiments with maps - This is IT!!!
 library (ggplot2)
@@ -151,10 +154,10 @@ maxent_occtrain_predict <- predict (maxent_occtrain, variable_crop )
 #PLotting training subdataset vs. whole dataset
 x11()
 plot (maxent_all_predict, main="Sciodrepoides watsoni distribution (Maxent/all)")
-plot (wrld_simpl, add=TRUE)
+plot (newmap, add=TRUE)
 x11()
 plot (maxent_occtrain_predict, main="Sciodrepoides watsoni distribution (Maxent/training)")
-plot (wrld_simpl, add=TRUE)
+plot (newmap, add=TRUE)
 
 #what is discriminant value (AUC)
 maxent_occtrain@results[5]
@@ -168,7 +171,7 @@ dim(occtest)
 pseudoabsence <- randomPoints (variable_crop, 650)
 x11()
 plot (pseudoabsence)
-plot (wrld_simpl,add=T)
+plot (newmap,add=T)
 points (occtest, col="red")
 
 #evaluation compare the value of AUC 
@@ -197,14 +200,16 @@ maxent_occtrain@results[5]
 #DONE
 
 #predicting in the past by function predict (every prediction should be run on the current 
-#data and then the prediction for the future or the past - use the same mathematical model for both)
-setwd ("C:/Users/pavel/Downloads/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climatic_layers/CCSM_21/")
+#data and then the prediction for the future or the past - use the same mathematical model 
+#for both)
+setwd ("C:/Users/pavel/Downloads/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climatic_layers/
+       CCSM_21/")
 variable21<- stack (c("bio10.bil", "bio18.bil", "bio8.bil", "bio16.bil"))
 glac_crop <- crop (variable21, e)
 nic_glac <- predict (maxent_occtrain, glac_crop)
 X11()
 plot (nic_glac, main="Sciodrepoides watsoni in the last glacial (Maxent/training)")
-plot (wrld_simpl,add=T)
+plot (newmap,add=T)
 
 #other maps of climate models (ECOclim - past layers )
 #future MIROC_21 ()
@@ -214,7 +219,7 @@ fut_crop <- crop (variable22, e)
 nic_fut <- predict (maxent_occtrain, fut_crop)
 x11()
 plot (nic_fut, main="Sciodrepoides watsoni MIROC_21 (Maxent/training)")
-plot (wrld_simpl,add=T)
+plot (newmap,add=T)
 
 
 ##ADITIONAL STUFF
