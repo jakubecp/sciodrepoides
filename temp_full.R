@@ -6,53 +6,34 @@ class(data$DT_egg)
 class (data$temp)
 data_12 = data [data$year=="2012",] # data for 2012
 data_13 = data [data$year=="2013",] # data for 2013
-aaa
 
 #boxplots 
 boxplot (data$DT_egg, data$DT_L1,data$DT_L2,data$DT_L3,data$DT_pupae,data$DT_total)
 boxplot (data_13$DT_egg, data_13$DT_L1, data_13$DT_L2, data_13$DT_L3, data_13$DT_pupae, data_13$DT_total)
 boxplot (data_12$DT_egg, data_12$DT_L1, data_12$DT_L2, data_12$DT_L3, data_12$DT_pupae, data_12$DT_total)
-#plots of eggs
-plot(data$egg, data$r_egg, xlab='development time [day]',ylab='development rate [1/day]', col='red')  # dvrTotalcombi = 1/durTotalcombi
-plot(data$temp, data$r_egg, xlab='temperature [?C]',ylab='development rate [1/day]', col='red')
-plot(data_13$DT_egg, data_13$egg, xlab='DT [HD]',ylab=' D [hours]', col='red', main="egg")
-plot(data_13$DT_L1, data_13$L1, xlab='DT [HD]',ylab=' D [hours]', col='red', main="L1")
-plot(data_13$DT_L2, data_13$L2, xlab='DT [HD]',ylab=' D [hours]', col='red', main="L2")
-plot(data_13$DT_L3, xlab='DT [HD]',ylab=' D [hours]', col='red', main="L3")
-plot(data_13$DT_pupae, data_13$pupae, xlab='DT [HD]',ylab=' D [hours]', col='red', main="pupae")
-plot(data_13$DT_total, data_13$total, xlab='DT [HD]',ylab=' D [hours]', col='red', main="total")
 
+#plots data (egg, - pupae)
 plot(data$DT_egg, data$egg, xlab='DT [HD]',ylab=' D [hours]', col='red', main="egg")
 plot(data$DT_L1, data$L1, xlab='DT [HD]',ylab=' D [hours]', col='red', main="L1")
 plot(data$DT_L2, data$L2, xlab='DT [HD]',ylab=' D [hours]', col='red', main="L2")
 plot(data$DT_L3,  data$L3, xlab='DT [HD]',ylab=' D [hours]', col='red', main="L3")
 plot(data$DT_pupae, data$pupae, xlab='DT [HD]',ylab=' D [hours]', col='red', main="pupae")
-plot(data$DT_total, data$total, xlab='DT [HD]',ylab=' D [hours]', col='red', main="total")
 
 #normality
-qqnorm(data$r_egg)
-qqline(data$r_egg)
-qqnorm(data_12$DT_egg)
+#obviously non-normal distribution due to problems in recording the data
+qqnorm(data_12$DT_egg) 
 qqline(data_12$DT_egg)
+#looks normal to me, different data recording
 qqnorm(data_13$DT_egg)
 qqline(data_13$DT_egg)
-qqnorm(data_12$r_egg)
-qqline(data_12$r_egg)
-qqnorm(data_13$r_egg)
-qqline(data_13$r_egg)
-
-qqnorm(data$DT_egg)
-qqline(data$DT_egg)
-qqnorm(data$DT_L1)
-qqline(data$DT_L1)
+qqnorm(data_13$DT_L1)
+qqline(data_13$DT_L1)
 qqnorm(data$DT_L2)
 qqline(data$DT_L2)
 qqnorm(data$DT_L3)
 qqline(data$DT_L3)
 qqnorm(data$DT_pupae)
 qqline(data$DT_pupae)
-qqnorm(data$DT_total)
-qqline(data$DT_total)
 
 #test of normality
 shapiro.test(data$DT_egg)
@@ -60,15 +41,14 @@ shapiro.test(data$DT_L1)
 shapiro.test(data$DT_L2)
 shapiro.test(data$DT_L3)
 shapiro.test(data$DT_pupae)
-shapiro.test(data$DT_total)
 
 #hist
 hist(data$DT_egg, breaks=10, prob=FALSE, xlab='DT', ylab='Density', main='Histogram of development rate', col='grey')
 
 #Tmin + SET - DT~D
-lm.1=lm(data$DT_egg~data$egg)
+lm.1=lm(data_13$DT_egg~data_13$egg)
 summary(lm.1)
-lm.2=lm(data$DT_L1~data$L1)
+lm.2=lm(data_13$DT_L1~data_13$L1)
 summary(lm.2)
 lm.3=lm(data$DT_L2~data$L2)
 summary(lm.3)
@@ -76,11 +56,9 @@ lm.4=lm(data$DT_L3 ~data$L3)
 summary(lm.4)
 lm.5=lm(data$DT_pupae~data$pupae)
 summary(lm.5)
-lm.6=lm(data$DT_total~data$total) #nema smysl resit, je tam velky error a odporuje si to s namerenymi daty
-summary(lm.6)
 
 
-plot(data$DT_egg~data$egg, xlab='Development(h)',
+plot(data_13$DT_egg~data_13$egg, xlab='Development(h)',
      ylab='Development*Temperature (hD) ', main="Egg", 
      xlim=c(0,300),ylim=c(0,5000))
 abline(lm.1, col='green', lwd=2)
@@ -94,9 +72,9 @@ plot(data$DT_pupae~data$pupae, xlab='D',ylab='DT ', main="pupae")
 abline(lm.5, col='green', lwd=2)
 
 # Effect of locality of origin
-#regrese
-loc.1=lm(data_13$r_egg~data_13$temp)
-summary(loc.1)
+#regrese (not running, because of missing code for this one)
+#loc.1=lm(data_13$r_egg~data_13$temp)
+#summary(loc.1)
 
 (6.045e-03)/(7.503e-04)
 

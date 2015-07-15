@@ -19,16 +19,15 @@ library (rJava) #OK
 library (rworldmap) #OK
 newmap = getMap(resolution="low") #function from package rworldmap
 
-install.packages("spocc", dependencies = TRUE)
-#RAW data from GBIF (only records with coordinates and you should set up upper limit of them)
-Sciod.watsoni<- occ_search(scientificName = "Sciodrepoides watsoni",
-                           hasCoordinate= TRUE, limit = 3215)
-#coordinates of observations (filter out NAs and obvious mistakes!)
-coord <- data.frame (long = Sciod.watsoni$data$decimalLongitude ,
-                     lat= Sciod.watsoni$data$decimalLatitude)
-X11()
-plot (coord)
-plot (newmap, add=T)
+# #RAW data from GBIF (only records with coordinates and you should set up upper limit of them)
+# Sciod.watsoni<- occ_search(scientificName = "Sciodrepoides watsoni",
+#                            hasCoordinate= TRUE, limit = 3215)
+# #coordinates of observations (filter out NAs and obvious mistakes!)
+# coord <- data.frame (long = Sciod.watsoni$data$decimalLongitude ,
+#                      lat= Sciod.watsoni$data$decimalLatitude)
+# X11()
+# plot (coord)
+# plot (newmap, add=T)
 
 ## SPOCC SEARCH - zmenit na Sciodrepoides watsoni az na to bude cas a asi 
 #sloucit s daty z CR
@@ -37,27 +36,50 @@ scio.gbif= occ (query="Sciodrepoides watsoni",
                  gbifopts=list(hasCoordinate=TRUE)
                     ,limit= 5000)
 
-sciod.bison = occ (query="Sciodrepoides watsoni", 
-                   from="bison", 
-                   bisonopts=list(hasCoordinate=TRUE),
-                   limit= 5000)
+# sciod.bison = occ (query="Sciodrepoides watsoni", 
+#                    from="bison", 
+#                    bisonopts=list(hasCoordinate=TRUE),
+#                    limit= 5000)
 
 
 scio.gbif=occ2df(scio.gbif)
-scio.bison=occ2df(sciod.bison)
+# scio.bison=occ2df(sciod.bison)
 
 coord.gbif = data.frame (long=scio.gbif$longitude,
                           lat=scio.gbif$latitude)
-coord.bison = data.frame (long=scio.bison$longitude,
-                          lat=scio.bison$latitude)
+# coord.bison = data.frame (long=scio.bison$longitude,
+#                           lat=scio.bison$latitude)
 
+# ## solution for transformation of DMS to decimal degrees
+## with celestila packages and function dms2deg
+install.packages("celestial")
+library (celestial)
+
+data.sw <- read.csv("Data/sc.watsoni.csv", header=TRUE, sep=";")
+str (data.sw)
+head (data.sw)
+n=length(data.sw$lat)-7
+cz.lat = c()
+cz.long = c()
+for (i in 1:n) {
+  cz.lat[i]=dms2deg (as.character (data.sw[i,30]), sep="DMS") #DMS format is still wrong in source
+  cz.long[i]=dms2deg (as.character (data.sw[i,31]), sep="DMS")
+}
+
+#made a data.frame from my data (they were in right format), Jan's data
+#and Gbif data
+coord.sc <- data.frame (long=data.sw$long[40:46], lat=data.sw$lat[40:46])
+coord.sc2 <- data.frame (long = cz.long, lat = cz.lat)
+coord.full <- rbind (coord.sc2, coord.sc)
+coord <- rbind (coord.full, coord.gbif)
+str (coord)
+coord.long <- as.numeric (coord$long)
+coord.lat <- as.numeric (coord$lat)
+coord.unfiltered <- cbind (coord.long, coord.lat)
 X11()
-plot (newmap, xlim=c(-120,100), ylim=c(-80,80))
-points (coord.gbif, col="blue")
-points (coord.bison, col="red")
+plot (newmap, xlim=c(-10,55), ylim=c(40,65))
+points (coord.unfiltered, col="blue")
 
-
-?occ2df
 #choose the right (important) climatic variables (http://www.worldclim.org/bioclim) 
 #for your species and stack them! USE ENFA (package adehabitat) for selection of the 
 #right variables if you do not know a lot about them
@@ -65,11 +87,12 @@ setwd ("C:/Users/pavel/Downloads/Vzdelavani/Spatial_modeling/ENM_2015_Varela/cli
        worldclim/") #home
 setwd ("F:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/") #university
 ?enfa
-variable<- stack (c("bio10.bil", "bio18.bil", "bio8.bil", "bio16.bil"))
+variable<- stack (c("bio1.bil", "bio12.bil")) 
+#original values  c("bio10.bil", "bio18.bil", "bio8.bil", "bio16.bil")
 
 #optional-if you are interested in more local (and quicker) predictions 
 #make an object (e) of certain extant (xmin, xmax, ymin, ymax) for croping
-e<-extent (-20,90,30,80)
+e<-extent (-20,60,30,75)
 #crop your climatic maps
 variable_crop<- crop (variable, e)
 
@@ -80,6 +103,15 @@ X11()
 par (mfrow=c(1,2))
 plot (niche$bio18, niche$bio10, xlab= "prectip of warmest qrt" , ylab= "temp warmest qurt" )
 plot (niche$bio16, niche$bio8 , xlab= "precip of wettest qrt" , ylab= "temp of wettest qrt" )
+
+
+## FILTERING biased observations
+#run envSample_Sarah_function.R
+coord <- envSample (coord.unfiltered, 
+                              filters=list (niche$bio1, niche$bio12),
+                              res=list(100,10), do.plot=TRUE)
+
+
 
 # MAXENT model (basic setup) - creates values of the model,
 # which are used in checking the behavior of the model 
@@ -101,7 +133,7 @@ response (maxent_all2)
 response (maxent_all5)
 
 #all values
-maxent_all5@results
+maxent_all@results
 
 #just AUC
 maxent_all@results[5]
@@ -114,8 +146,22 @@ maxent_all_predict<- predict (maxent_all, variable_crop)
 #Plot the prediction20,70,30,70
 X11()
 plot (maxent_all_predict, 
-      main="Sciodrepoides watsoni distribution (Maxent/all)", xlim =c(-20,90),ylim=c(30,80) )
+      main="Sciodrepoides watsoni distribution (Maxent/all)", 
+      xlim =c(-20,90),ylim=c(30,80) )
 plot (newmap, add=TRUE, xlim=c(-20,90),ylim=c(30,80))
+
+#reclasification reclasification (based on maximum training sensitivityplus 
+#specificity logistic treshold)
+m = c(0.3800,1,1,0,0.3800,0)
+rclmat = matrix (m,ncol=3,byrow=TRUE)
+sciod_reclas<- reclassify (maxent_all_predict, rclmat)
+
+X11()
+plot (sciod_reclas, 
+      main="Sciodrepoides watsoni distribution (Maxent/all)")
+plot (newmap, add=TRUE)
+points (coord.unfiltered, col="blue")
+
 
 #experiments with maps - This is IT!!!
 library (ggplot2)
