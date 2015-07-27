@@ -19,6 +19,12 @@ plot(data$DT_L2, data$L2, xlab='DT [HD]',ylab=' D [hours]', col='red', main="L2"
 plot(data$DT_L3,  data$L3, xlab='DT [HD]',ylab=' D [hours]', col='red', main="L3")
 plot(data$DT_pupae, data$pupae, xlab='DT [HD]',ylab=' D [hours]', col='red', main="pupae")
 
+plot (data$temp, data$egg)
+plot (data$temp,data$L1)
+plot (data$temp,data$L2)
+plot (data$temp,data$L3)
+plot (data$temp,data$pupae)
+
 #normality
 #obviously non-normal distribution due to problems in recording the data
 qqnorm(data_12$DT_egg) 
