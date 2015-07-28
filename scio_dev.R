@@ -83,8 +83,7 @@ points (coord.unfiltered, col="blue")
 #choose the right (important) climatic variables (http://www.worldclim.org/bioclim) 
 #for your species and stack them! USE ENFA (package adehabitat) for selection of the 
 #right variables if you do not know a lot about them
-setwd ("C:/Users/pavel/Downloads/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climatic_layers/
-       worldclim/") #home
+setwd ("C:/Users/pavel/Downloads/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/") #home
 setwd ("F:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/") #university
 ?enfa
 variable<- stack (c("bio1.bil", "bio12.bil")) 
@@ -97,7 +96,7 @@ e<-extent (-20,60,30,75)
 variable_crop<- crop (variable, e)
 
 #Project niches of target species by extracting values from raster and ploting them
-niche <- extract (variable_crop, coord)
+niche <- extract (variable_crop, coord.unfiltered)
 niche <- as.data.frame (niche)
 X11()
 par (mfrow=c(1,2))
