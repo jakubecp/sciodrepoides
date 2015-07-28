@@ -151,7 +151,8 @@ plot (newmap, add=TRUE, xlim=c(-20,90),ylim=c(30,80))
 
 #reclasification reclasification (based on maximum training sensitivityplus 
 #specificity logistic treshold)
-m = c(0.3800,1,1,0,0.3800,0)
+maxent_all@results[38]
+m = c(0.3348,1,1,0,0.3348,0)
 rclmat = matrix (m,ncol=3,byrow=TRUE)
 sciod_reclas<- reclassify (maxent_all_predict, rclmat)
 
