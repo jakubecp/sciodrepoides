@@ -67,19 +67,18 @@ boxplot (data_13$DT_egg, data_13$DT_L1, data_13$DT_L2, data_13$DT_L3, data_13$DT
 boxplot (data_12$DT_egg, data_12$DT_L1, data_12$DT_L2, data_12$DT_L3, data_12$DT_pupae, data_12$DT_total)
 
 #plots data (egg, - pupae)
-plot(data$DT_egg, data$egg, xlab='DT [HD]',ylab=' D [hours]', col='red', main="egg")
+plot(data_13$DT_egg, data_13$egg, xlab='DT [HD]',ylab=' D [hours]', col='red', main="egg")
 plot(data$DT_L1, data$L1, xlab='DT [HD]',ylab=' D [hours]', col='red', main="L1")
 plot(data$DT_L2, data$L2, xlab='DT [HD]',ylab=' D [hours]', col='red', main="L2")
 plot(data$DT_L3,  data$L3, xlab='DT [HD]',ylab=' D [hours]', col='red', main="L3")
 plot(data$DT_pupae, data$pupae, xlab='DT [HD]',ylab=' D [hours]', col='red', main="pupae")
 
-plot (data$temp, data$egg)
+plot (data$temp,data$egg)
 plot (data$temp,data$L1)
 plot (data$temp,data$L2)
 plot (data$temp,data$L3)
 plot (data$temp,data$pupae)
 
-summary (data$mortality)
 #normality
 #obviously non-normal distribution due to problems in recording the data
 qqnorm(data_12$DT_egg) 
@@ -87,8 +86,8 @@ qqline(data_12$DT_egg)
 #looks normal to me, different data recording
 qqnorm(data_13$DT_egg)
 qqline(data_13$DT_egg)
-qqnorm(data_13$DT_L1)
-qqline(data_13$DT_L1)
+qqnorm(data$DT_L1)
+qqline(data$DT_L1)
 qqnorm(data$DT_L2)
 qqline(data$DT_L2)
 qqnorm(data$DT_L3)
@@ -97,7 +96,7 @@ qqnorm(data$DT_pupae)
 qqline(data$DT_pupae)
 
 #test of normality
-shapiro.test(data$DT_egg)
+shapiro.test(data_13$DT_egg)
 shapiro.test(data$DT_L1)
 shapiro.test(data$DT_L2)
 shapiro.test(data$DT_L3)
@@ -119,10 +118,11 @@ lm.5=lm(data$DT_pupae~data$pupae)
 summary(lm.5)
 
 
+
 plot(data_13$DT_egg~data_13$egg, xlab='Development(h)',
      ylab='Development*Temperature (hD) ', main="Egg", 
      xlim=c(0,300),ylim=c(0,5000))
-abline(lm.1, col='green', lwd=2)
+abline(lm.1, col='green', lwd=1)
 plot(data$DT_L1~data$L1, xlab='D',ylab='DT ', main="L1")
 abline(lm.2, col='green', lwd=2)
 plot(data$DT_L2~data$L2, xlab='D',ylab='DT ', main="L2")
@@ -133,11 +133,11 @@ plot(data$DT_pupae~data$pupae, xlab='D',ylab='DT ', main="pupae")
 abline(lm.5, col='green', lwd=2)
 
 # Effect of locality of origin
-#regrese (not running, because of missing code for this one)
-#loc.1=lm(data_13$r_egg~data_13$temp)
-#summary(loc.1)
+#regrese (not very well done, still have to work on the imput and output
 
-(6.045e-03)/(7.503e-04)
+loc.1=lm(data_13$r_egg~data_13$temp)
+summary(loc.1)
+(6.045e-03)/(7.503e-04) #no idea what is this for
 
 loc.2=lm(data$r_egg~data$temp+data$loc)
 loc.3=lm(data$r_egg~data$temp*data$loc)
