@@ -6,6 +6,35 @@ class(data$DT_egg)
 class (data$temp)
 data_12 = data [data$year=="2012",] # data for 2012
 data_13 = data [data$year=="2013",] # data for 2013
+data_t15 = data [data$temp=="15",] # data for 15°C
+data_t18 = data [data$temp=="18",] # data for 18°C
+data_t21 = data [data$temp=="21",] # data for 21°C
+data_t25 = data [data$temp=="25",] # data for 25°C
+data_t28 = data [data$temp=="28",] # data for 28°C
+
+#Mortality
+summary (data_t15$mortality_total) #until adulthood
+summary (data_t18$mortality_total) #until adulthood
+summary (data_t21$mortality_total) #until adulthood
+summary (data_t25$mortality_total) #until adulthood
+summary (data_t28$mortality_total) #until adulthood
+
+summary (data_t15$mortality_L2) #until L3
+summary (data_t18$mortality_L2) #until L3
+summary (data_t21$mortality_L2) #until L3
+summary (data_t25$mortality_L2) #until L3
+summary (data_t28$mortality_L2) #until L3
+
+summary (data_t15$mortality_L3) #of L3
+summary (data_t18$mortality_L3) #of L3
+summary (data_t21$mortality_L3) #of L3
+summary (data_t25$mortality_L3) #of L3
+summary (data_t28$mortality_L3) #of L3
+
+(1-0.1429)*100
+(1-0.03077)*100
+(1-0.1458)*100
+(1-0.03704)*100
 
 #boxplots 
 boxplot (data$DT_egg, data$DT_L1,data$DT_L2,data$DT_L3,data$DT_pupae,data$DT_total)
@@ -25,6 +54,7 @@ plot (data$temp,data$L2)
 plot (data$temp,data$L3)
 plot (data$temp,data$pupae)
 
+summary (data$mortality)
 #normality
 #obviously non-normal distribution due to problems in recording the data
 qqnorm(data_12$DT_egg) 
