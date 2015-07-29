@@ -41,8 +41,12 @@ k=929.3538
 lm.2=lm(data_13$r_egg~data_13$temp)
 summary (lm.2)
 #Plot of thermal summation models on 1/D data FITS perfectly!!!!!!!
-plot(data_13$r_egg~data_13$temp, xlab='Developmental rate(1/D)',
-     ylab='Temperature (°C) ', main="Egg")
+plot(data_13$r_egg~data_13$temp, 
+     ylab='Developmental rate(1/D)',
+     xlab='Temperature (°C) ', 
+     main="Egg",
+     ylim=c(0,0.02),
+     xlim=c(0,25))
 abline (a=-(t/k), b=1/k, col='green', lwd=1)
 abline (lm.2)
 
