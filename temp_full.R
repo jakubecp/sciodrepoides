@@ -36,6 +36,31 @@ summary (data_t28$mortality_L3) #of L3
 (1-0.1458)*100
 (1-0.03704)*100
 
+#Plot of mean mortality for each treatment
+#SEcond Instar
+mort_15 <-(1-mean(data_t15$mortality_L2))*100 #until L3
+mort_18 <-(1-mean(data_t18$mortality_L2))*100 #until L3
+mort_21 <-(1-mean(data_t21$mortality_L2))*100 #until L3
+mort_25 <-(1-mean(data_t25$mortality_L2))*100 #until L3
+mort_28 <-100 #until L3
+mort <- c(mort_15, mort_18, mort_21, mort_25, mort_28)
+temp <- c(15,18,21,25,28)
+plot (mort~temp, type="o" , col="black", pch=16, 
+      main = "mean mortality of second instar", ylim=c(0,100))
+#Third instar
+mort_15 <-(1-mean(data_t15$mortality_L3))*100 #until L3
+mort_18 <-(1-mean(data_t18$mortality_L3))*100 #until L3
+mort_21 <-(1-mean(data_t21$mortality_L3))*100 #until L3
+mort_25 <-(1-mean(data_t25$mortality_L3))*100 #until L3
+mort_28 <-100 #until L3
+mort <- c(mort_15, mort_18, mort_21, mort_25, mort_28)
+temp <- c(15,18,21,25,28)
+plot (mort~temp, type="o" , col="black", pch=16, 
+      main = "mean mortality of third instar", ylim=c(0,100))
+
+
+
+
 #boxplots 
 boxplot (data$DT_egg, data$DT_L1,data$DT_L2,data$DT_L3,data$DT_pupae,data$DT_total)
 boxplot (data_13$DT_egg, data_13$DT_L1, data_13$DT_L2, data_13$DT_L3, data_13$DT_pupae, data_13$DT_total)
