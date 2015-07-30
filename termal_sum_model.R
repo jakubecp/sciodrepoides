@@ -22,18 +22,27 @@ summary(lm.5)
 
 #Plot of thermal summation models on DT data
 
+
+getwd()
+tiff (filename="exports/sciodrepoides_development.tiff", width=5000, height=6000, 
+      compression="lzw", res= 800)
+par (mfrow=c(3,2), mar=rep(2,4))
 plot(data_13$DT_egg~data_13$egg, xlab='Development(h)',
-     ylab='Development*Temperature (hD) ', main="Egg", 
-     xlim=c(0,300),ylim=c(0,5000))
-abline(lm.1, col='green', lwd=1)
-plot(data$DT_L1~data$L1, xlab='D',ylab='DT ', main="L1")
-abline(lm.2, col='green', lwd=2)
-plot(data$DT_L2~data$L2, xlab='D',ylab='DT ', main="L2")
-abline(lm.3, col='green', lwd=2)
-plot(data$DT_L3 ~data$L3, xlab='D',ylab='DT ', main="L3")
-abline(lm.4, col='green', lwd=2)
-plot(data$DT_pupae~data$pupae, xlab='D',ylab='DT ', main="pupae")
-abline(lm.5, col='green', lwd=2)
+     ylab='Development*Temperature (hD) ', main="Egg")
+abline(lm.1, col='red', lwd=2)
+plot(data$DT_L1~data$L1, xlab='Development(h)',
+     ylab='Development*Temperature (hD) ', main="L1")
+abline(lm.2, col='red', lwd=2)
+plot(data$DT_L2~data$L2, xlab='Development(h)',
+     ylab='Development*Temperature (hD) ', main="L2")
+abline(lm.3, col='red', lwd=2)
+plot(data$DT_L3 ~data$L3, xlab='Development(h)',
+     ylab='Development*Temperature (hD) ', main="L3")
+abline(lm.4, col='red', lwd=2)
+plot(data$DT_pupae~data$pupae, xlab='Development(h)',
+     ylab='Development*Temperature (hD) ', main="Pupae")
+abline(lm.5, col='red', lwd=2)
+dev.off()
 
 #COMPARISON OF TWO METHODS IN GRAPHICAL WAY
 t=11.3997
