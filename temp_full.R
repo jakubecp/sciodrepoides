@@ -66,17 +66,23 @@ mort3 <- c(mort_15, mort_18, mort_21, mort_25, mort_28)
 plot (mort3~temp1, type="o" , col="black", pch=16, 
       main = "mean mortality until adulthood", ylim=c(0,100))
 
+#Generate and export graph for mortality
 tiff (filename="exports/sciodrepoides_mortality.tiff", 
-      width=5000, height=6000, 
+      width=5000, height=5000, 
       compression="lzw", res= 800)
-plot (mort1~temp1, type="o" , col="black", pch=16, 
-      ylim=c(0,100), main = "Mortality of S. watsoni",
+plot (mort1~temp1, pch=0, 
+      ylim=c(0,100), xlim=c(15, 34.6), main = "Mortality of S. watsoni",
       xlab="Temperature (°C)", ylab="Mortality (%)")
-points (temp1, mort2, col="red")
-line (temp1, mort2, col='red', lwd=2)
-points (temp1, mort3, col="green")
-line (temp1, mort3)
+points (temp1, mort2,  pch=1)
+points (temp1, mort3,  pch=2)
+lines (temp1, mort2,  pch=16, lty=3)
+lines (temp1, mort3,  pch=16, lty=2)
+lines (temp1, mort1,  pch=16, lty=1)
+legend (28.5,100, c("1st-2nd instar", "3rd instar", "adulthood"),
+        pch = c(0,1,2), lty = c(1,3,2), merge=TRUE)
 dev.off()
+
+
 
 #boxplots 
 boxplot (data$DT_egg, data$DT_L1,data$DT_L2,data$DT_L3,data$DT_pupae,data$DT_total)
