@@ -43,9 +43,9 @@ mort_18 <-(1-mean(data_t18$mortality_L2))*100 #until L3
 mort_21 <-(1-mean(data_t21$mortality_L2))*100 #until L3
 mort_25 <-(1-mean(data_t25$mortality_L2))*100 #until L3
 mort_28 <-100 #until L3
-mort <- c(mort_15, mort_18, mort_21, mort_25, mort_28)
-temp <- c(15,18,21,25,28)
-plot (mort~temp, type="o" , col="black", pch=16, 
+mort1 <- c(mort_15, mort_18, mort_21, mort_25, mort_28)
+temp1 <- c(15,18,21,25,28)
+plot (mort1~temp1, type="o" , col="black", pch=16, 
       main = "mean mortality of second instar", ylim=c(0,100))
 #Third instar
 mort_15 <-(1-mean(data_t15$mortality_L3))*100 #until L3
@@ -53,13 +53,30 @@ mort_18 <-(1-mean(data_t18$mortality_L3))*100 #until L3
 mort_21 <-(1-mean(data_t21$mortality_L3))*100 #until L3
 mort_25 <-(1-mean(data_t25$mortality_L3))*100 #until L3
 mort_28 <-100 #until L3
-mort <- c(mort_15, mort_18, mort_21, mort_25, mort_28)
-temp <- c(15,18,21,25,28)
-plot (mort~temp, type="o" , col="black", pch=16, 
+mort2 <- c(mort_15, mort_18, mort_21, mort_25, mort_28)
+plot (mort2~temp1, type="o" , col="black", pch=16, 
       main = "mean mortality of third instar", ylim=c(0,100))
+#until adulthood
+mort_15 <-(1-mean(data_t15$mortality_total))*100 #until L3
+mort_18 <-(1-mean(data_t18$mortality_total))*100 #until L3
+mort_21 <-(1-mean(data_t21$mortality_total))*100 #until L3
+mort_25 <-(1-mean(data_t25$mortality_total))*100 #until L3
+mort_28 <-100 #until L3
+mort3 <- c(mort_15, mort_18, mort_21, mort_25, mort_28)
+plot (mort3~temp1, type="o" , col="black", pch=16, 
+      main = "mean mortality until adulthood", ylim=c(0,100))
 
-
-
+tiff (filename="exports/sciodrepoides_mortality.tiff", 
+      width=5000, height=6000, 
+      compression="lzw", res= 800)
+plot (mort1~temp1, type="o" , col="black", pch=16, 
+      ylim=c(0,100), main = "Mortality of S. watsoni",
+      xlab="Temperature (°C)", ylab="Mortality (%)")
+points (temp1, mort2, col="red")
+line (temp1, mort2, col='red', lwd=2)
+points (temp1, mort3, col="green")
+line (temp1, mort3)
+dev.off()
 
 #boxplots 
 boxplot (data$DT_egg, data$DT_L1,data$DT_L2,data$DT_L3,data$DT_pupae,data$DT_total)
