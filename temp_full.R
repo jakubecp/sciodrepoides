@@ -43,8 +43,8 @@ mort_18 <-(1-mean(data_t18$mortality_L2))*100 #until L3
 mort_21 <-(1-mean(data_t21$mortality_L2))*100 #until L3
 mort_25 <-(1-mean(data_t25$mortality_L2))*100 #until L3
 mort_28 <-100 #until L3
-mort1 <- c(mort_15, mort_18, mort_21, mort_25, mort_28)
-temp1 <- c(15,18,21,25,28)
+mort1 <- c(mort_15, mort_18, mort_21, mort_25)
+temp1 <- c(15,18,21,25)
 plot (mort1~temp1, type="o" , col="black", pch=16, 
       main = "mean mortality of second instar", ylim=c(0,100))
 #Third instar
@@ -53,7 +53,7 @@ mort_18 <-(1-mean(data_t18$mortality_L3))*100 #until L3
 mort_21 <-(1-mean(data_t21$mortality_L3))*100 #until L3
 mort_25 <-(1-mean(data_t25$mortality_L3))*100 #until L3
 mort_28 <-100 #until L3
-mort2 <- c(mort_15, mort_18, mort_21, mort_25, mort_28)
+mort2 <- c(mort_15, mort_18, mort_21, mort_25)
 plot (mort2~temp1, type="o" , col="black", pch=16, 
       main = "mean mortality of third instar", ylim=c(0,100))
 #until adulthood
@@ -62,7 +62,7 @@ mort_18 <-(1-mean(data_t18$mortality_total))*100 #until L3
 mort_21 <-(1-mean(data_t21$mortality_total))*100 #until L3
 mort_25 <-(1-mean(data_t25$mortality_total))*100 #until L3
 mort_28 <-100 #until L3
-mort3 <- c(mort_15, mort_18, mort_21, mort_25, mort_28)
+mort3 <- c(mort_15, mort_18, mort_21, mort_25)
 plot (mort3~temp1, type="o" , col="black", pch=16, 
       main = "mean mortality until adulthood", ylim=c(0,100))
 
@@ -71,14 +71,14 @@ tiff (filename="exports/sciodrepoides_mortality.tiff",
       width=5000, height=5000, 
       compression="lzw", res= 800)
 plot (mort1~temp1, pch=0, 
-      ylim=c(0,100), xlim=c(15, 34.6), main = "Mortality of S. watsoni",
+      ylim=c(0,100), xlim=c(15, 26), 
       xlab="Temperature (°C)", ylab="Mortality (%)")
 points (temp1, mort2,  pch=1)
 points (temp1, mort3,  pch=2)
 lines (temp1, mort2,  pch=16, lty=3)
 lines (temp1, mort3,  pch=16, lty=2)
 lines (temp1, mort1,  pch=16, lty=1)
-legend (28.5,100, c("1st-2nd instar", "3rd instar", "adulthood"),
+legend (23,20, c("2nd instar", "3rd instar", "pupae"),
         pch = c(0,1,2), lty = c(1,3,2), merge=TRUE)
 dev.off()
 
