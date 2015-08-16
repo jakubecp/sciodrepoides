@@ -1,20 +1,43 @@
 rm(list = ls())
 data = read.csv("Data/sciodrepoides_delka_r.csv", header=TRUE, sep = ";")
+data_l1 = read.csv ("Data/sciodrepoides_delka_L1.csv", header=TRUE, sep = ";")
+data_l2 = read.csv ("Data/sciodrepoides_delka_L2.csv", header=TRUE, sep = ";")
+data_l3 = read.csv ("Data/sciodrepoides_delka_L3.csv", header=TRUE, sep = ";")
 head(data)
 summary(data$instar)
 class(data$instar)
 class (data$oblast)
 class (data$teplota)
-# data$teplota = as.factor (data$teplota) # for length/temperature models
+data$teplota = as.factor (data$teplota) # for length/temperature models
 summary (data)
 
-#SPLIT dat podle instaru
-data_l1 = data[data$instar == "l1",]
-data_l2 = data[data$instar == "l2",]
-data_l3 = data[data$instar == "l3",]
+length(data$delka)
+
+#number of observations in each instar
+length (data_l1$delka)
+length (data_l2$delka)
+length (data_l3$delka)
+#number of individuals in each instar photographed
+levels (data$jedinec) #263 individuals were photographed in total
+levels (data_l1$jedinec) # 252 individuals were photographed of L1 class
+levels (data_l2$jedinec) # 175 individuals were photographed of L2 class
+levels (data_l3$jedinec) # 127 individuals were photographed of L3 class
+
+#plot of 
 par (mfrow = c(1,2))
-plot (data$instar~data$delka)
+plot (data$delka~data$instar)
 boxplot (data$delka~data$instar)
+
+library(ggplot2)
+qplot(factor(instar), delka, data = data, geom = "boxplot")
+#basic characteristics of dataset
+mean (data_l1$delka)
+mean (data_l2$delka)
+mean (data_l3$delka)
+
+sd (data_l1$delka)
+sd (data_l2$delka)
+sd (data_l3$delka)
 
 #NORMALITA
 qqnorm(data_l1$delka)
