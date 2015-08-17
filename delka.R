@@ -12,8 +12,16 @@ data$teplota = as.factor (data$teplota) # for length/temperature models
 summary (data)
 
 #plot of individual growth in time
+interaction.plot (data$instar, data$jedinec, data$delka)
 interaction.plot (data$fotka, data$jedinec, data$delka)
 length(data$delka)
+
+tiff (filename="exports/sciodrepoides_length.tiff", width=5000, height=6000, 
+      compression="lzw", res= 800)
+plot (data$delka~data$instar,
+      xlab="Instar",
+      ylab="Length (mm)")
+dev.off()
 
 #number of observations in each instar
 length (data_l1$delka)

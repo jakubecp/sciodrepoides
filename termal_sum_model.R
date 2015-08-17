@@ -6,7 +6,8 @@ class(data$DT_egg)
 class (data$temp)
 data_12 = data [data$year=="2012",] # data for 2012
 data_13 = data [data$year=="2013",] # data for 2013
-
+library(ggplot2)
+library(grid)
 #Tmin + SET - DT~D
 lm.1=lm(data_13$DT_egg~data_13$egg)
 summary(lm.1)
@@ -26,23 +27,68 @@ summary(lm.5)
 getwd()
 tiff (filename="exports/sciodrepoides_development.tiff", width=5000, height=6000, 
       compression="lzw", res= 800)
-par (mfrow=c(3,2), mar=rep(2,4))
-plot(data_13$DT_egg~data_13$egg, xlab='Development(h)',
-     ylab='Development*Temperature (hD) ', main="Egg")
-abline(lm.1, lwd=2)
-plot(data$DT_L1~data$L1, xlab='Development(h)',
-     ylab='Development*Temperature (hD) ', main="L1")
-abline(lm.2, lwd=2)
-plot(data$DT_L2~data$L2, xlab='Development(h)',
-     ylab='Development*Temperature (hD) ', main="L2")
-abline(lm.3, lwd=2)
-plot(data$DT_L3 ~data$L3, xlab='Development(h)',
-     ylab='Development*Temperature (hD) ', main="L3")
-abline(lm.4, lwd=2)
-plot(data$DT_pupae~data$pupae, xlab='Development(h)',
-     ylab='Development*Temperature (hD) ', main="Pupae")
-abline(lm.5, lwd=2)
+
+p1= qplot (data_13$egg,data_13$DT_egg,
+       xlab=substitute(Development(h)),
+       ylab=substitute(Development*Temperature (hD)),
+       main="Egg")
+p1 + stat_smooth(method="lm", se=TRUE, colour="black")
+
+p2= qplot (data$L1,data$DT_L1,
+           xlab=substitute(Development(h)),
+           ylab=substitute(Development*Temperature (hD)),
+           main="Egg")
+p2 + stat_smooth(method="lm", se=TRUE, colour="black")
+
+p3= qplot (data$L2,data$DT_L2,
+           xlab=substitute(Development(h)),
+           ylab=substitute(Development*Temperature (hD)),
+           main="Egg")
+p3 + stat_smooth(method="lm", se=TRUE, colour="black")
+
+p4= qplot (data$L3,data$DT_L3,
+           xlab=substitute(Development(h)),
+           ylab=substitute(Development*Temperature (hD)),
+           main="Egg")
+p4 + stat_smooth(method="lm", se=TRUE, colour="black")
+
+p5= qplot (data$pupae,data$DT_pupae,
+           xlab=substitute(Development(h)),
+           ylab=substitute(Development*Temperature (hD)),
+           main="Egg")
+p5 + stat_smooth(method="lm", se=TRUE, colour="black")
+
+multiplot (p1,p2, p3,p4,p5, cols=2)
 dev.off()
+
+# par (mfrow=c(3,2)) # ,mar=rep(2,4)
+# plot(data_13$DT_egg~data_13$egg, 
+#      xlab="Development(h)",
+#      ylab="Development*Temperature (hD)", 
+#      main="Egg")
+# abline(lm.1, lwd=2)
+# 
+# plot(data$DT_L1~data$L1, 
+#      xlab="Development(h)",
+#      ylab="Development*Temperature (hD)", 
+#      main="L1")
+# abline(lm.2, lwd=2)
+# plot(data$DT_L2~data$L2, 
+#      xlab="Development(h)",
+#      ylab="Development*Temperature (hD)", 
+#      main="L2")
+# abline(lm.3, lwd=2)
+# plot(data$DT_L3 ~data$L3, 
+#      xlab="Development(h)",
+#      ylab="Development*Temperature (hD)", 
+#      main="L3")
+# abline(lm.4, lwd=2)
+# plot(data$DT_pupae~data$pupae, 
+#      xlab="Development(h)",
+#      ylab="Development*Temperature (hD)", 
+#      main="Pupae")
+# abline(lm.5, lwd=2)
+# dev.off()
 
 #COMPARISON OF TWO METHODS IN GRAPHICAL WAY
 t=11.3997
