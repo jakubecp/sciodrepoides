@@ -29,19 +29,19 @@ tiff (filename="exports/sciodrepoides_development.tiff", width=5000, height=6000
 par (mfrow=c(3,2), mar=rep(2,4))
 plot(data_13$DT_egg~data_13$egg, xlab='Development(h)',
      ylab='Development*Temperature (hD) ', main="Egg")
-abline(lm.1, col='red', lwd=2)
+abline(lm.1, lwd=2)
 plot(data$DT_L1~data$L1, xlab='Development(h)',
      ylab='Development*Temperature (hD) ', main="L1")
-abline(lm.2, col='red', lwd=2)
+abline(lm.2, lwd=2)
 plot(data$DT_L2~data$L2, xlab='Development(h)',
      ylab='Development*Temperature (hD) ', main="L2")
-abline(lm.3, col='red', lwd=2)
+abline(lm.3, lwd=2)
 plot(data$DT_L3 ~data$L3, xlab='Development(h)',
      ylab='Development*Temperature (hD) ', main="L3")
-abline(lm.4, col='red', lwd=2)
+abline(lm.4, lwd=2)
 plot(data$DT_pupae~data$pupae, xlab='Development(h)',
      ylab='Development*Temperature (hD) ', main="Pupae")
-abline(lm.5, col='red', lwd=2)
+abline(lm.5, lwd=2)
 dev.off()
 
 #COMPARISON OF TWO METHODS IN GRAPHICAL WAY

@@ -11,6 +11,8 @@ class (data$teplota)
 data$teplota = as.factor (data$teplota) # for length/temperature models
 summary (data)
 
+#plot of individual growth in time
+interaction.plot (data$fotka, data$jedinec, data$delka)
 length(data$delka)
 
 #number of observations in each instar

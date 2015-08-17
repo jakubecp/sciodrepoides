@@ -12,6 +12,10 @@ data_t21 = data [data$temp=="21",] # data for 21°C
 data_t25 = data [data$temp=="25",] # data for 25°C
 data_t28 = data [data$temp=="28",] # data for 28°C
 
+#interaction plot of individual growth rate
+
+interaction.plot (data$fotka, data$X, data$delka)
+
 #Mortality
 summary (data_t15$mortality_total) #until adulthood
 summary (data_t18$mortality_total) #until adulthood
