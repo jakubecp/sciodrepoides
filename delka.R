@@ -26,19 +26,13 @@ qplot (data$instar,data$delka,
       ylab=substitute (Length (mm)))
 dev.off()
 
-p1= qplot (data_13$egg,data_13$DT_egg,
-           xlab=substitute(Development(h)),
-           ylab=substitute(Development*Temperature (hD)),
-           main="Egg")
-p1 + stat_smooth(method="lm", se=TRUE, colour="black")
 
-
-tiff (filename="exports/sciodrepoides_length.tiff", width=5000, height=6000, 
-      compression="lzw", res= 800)
-plot (data$delka~data$instar,
-      xlab="Instar",
-      ylab="Length (mm)")
-dev.off()
+# tiff (filename="exports/sciodrepoides_length.tiff", width=5000, height=6000, 
+#       compression="lzw", res= 800)
+# plot (data$delka~data$instar,
+#       xlab="Instar",
+#       ylab="Length (mm)")
+# dev.off()
 
 #number of observations in each instar
 length (data_l1$delka)
