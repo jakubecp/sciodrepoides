@@ -16,6 +16,23 @@ interaction.plot (data$instar, data$jedinec, data$delka)
 interaction.plot (data$fotka, data$jedinec, data$delka)
 length(data$delka)
 
+
+# plot of lengths in different instars
+tiff (filename="exports/sciodrepoides_length.tiff", width=5000, height=6000, 
+      compression="lzw", res= 800)
+qplot (data$instar,data$delka,
+       geom="boxplot",
+      xlab=substitute(Instar),
+      ylab=substitute (Length (mm)))
+dev.off()
+
+p1= qplot (data_13$egg,data_13$DT_egg,
+           xlab=substitute(Development(h)),
+           ylab=substitute(Development*Temperature (hD)),
+           main="Egg")
+p1 + stat_smooth(method="lm", se=TRUE, colour="black")
+
+
 tiff (filename="exports/sciodrepoides_length.tiff", width=5000, height=6000, 
       compression="lzw", res= 800)
 plot (data$delka~data$instar,
