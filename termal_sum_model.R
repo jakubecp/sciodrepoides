@@ -8,6 +8,8 @@ data_12 = data [data$year=="2012",] # data for 2012
 data_13 = data [data$year=="2013",] # data for 2013
 library(ggplot2)
 library(grid)
+library(gridExtra)
+
 #Tmin + SET - DT~D
 lm.1=lm(data_13$DT_egg~data_13$egg)
 summary(lm.1)
@@ -25,40 +27,40 @@ summary(lm.5)
 
 
 getwd()
-tiff (filename="exports/sciodrepoides_development.tiff", width=5000, height=6000, 
-      compression="lzw", res= 800)
 
 p1= qplot (data_13$egg,data_13$DT_egg,
-       xlab=substitute(Development(h)),
-       ylab=substitute(Development*Temperature (hD)),
+           xlab=substitute("Development (h)"),
+           ylab=substitute("Development * Temperature (hD)"),
        main="Egg")
-p1 + stat_smooth(method="lm", se=TRUE, colour="black")
+a1 = p1 + stat_smooth(method="lm", se=TRUE, colour="black")
 
 p2= qplot (data$L1,data$DT_L1,
-           xlab=substitute(Development(h)),
-           ylab=substitute(Development*Temperature (hD)),
-           main="Egg")
-p2 + stat_smooth(method="lm", se=TRUE, colour="black")
+           xlab=substitute("Development (h)"),
+           ylab=substitute("Development * Temperature (hD)"),
+           main="L1")
+a2= p2 + stat_smooth(method="lm", se=TRUE, colour="black")
 
 p3= qplot (data$L2,data$DT_L2,
-           xlab=substitute(Development(h)),
-           ylab=substitute(Development*Temperature (hD)),
-           main="Egg")
-p3 + stat_smooth(method="lm", se=TRUE, colour="black")
+           xlab=substitute("Development (h)"),
+           ylab=substitute("Development * Temperature (hD)"),
+           main="L2")
+a3= p3 + stat_smooth(method="lm", se=TRUE, colour="black")
 
 p4= qplot (data$L3,data$DT_L3,
-           xlab=substitute(Development(h)),
-           ylab=substitute(Development*Temperature (hD)),
-           main="Egg")
-p4 + stat_smooth(method="lm", se=TRUE, colour="black")
+           xlab=substitute("Development (h)"),
+           ylab=substitute("Development * Temperature (hD)"),
+           main="L3")
+a4= p4 + stat_smooth(method="lm", se=TRUE, colour="black")
 
 p5= qplot (data$pupae,data$DT_pupae,
-           xlab=substitute(Development(h)),
-           ylab=substitute(Development*Temperature (hD)),
-           main="Egg")
-p5 + stat_smooth(method="lm", se=TRUE, colour="black")
-
-multiplot (p1,p2, p3,p4,p5, cols=2)
+           xlab=substitute("Development (h)"),
+           ylab=substitute("Development * Temperature (hD)"),
+           main="Pupae")
+a5= p5 + stat_smooth(method="lm", se=TRUE, colour="black")
+tiff (filename="exports/sciodrepoides_development.tiff", 
+      width=8000, height=12000, 
+      compression="lzw", res= 800)
+grid.arrange (a1,a2, a3, a4, a5, ncol=2)
 dev.off()
 
 # par (mfrow=c(3,2)) # ,mar=rep(2,4)
