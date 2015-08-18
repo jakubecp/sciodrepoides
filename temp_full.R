@@ -12,6 +12,8 @@ data_t21 = data [data$temp=="21",] # data for 21°C
 data_t25 = data [data$temp=="25",] # data for 25°C
 data_t28 = data [data$temp=="28",] # data for 28°C
 
+
+
 library (ggplot2)
 #interaction plot of individual growth rate
 
@@ -24,11 +26,11 @@ summary (data_t21$mortality_total) #until adulthood
 summary (data_t25$mortality_total) #until adulthood
 summary (data_t28$mortality_total) #until adulthood
 
-summary (data_t15$mortality_L2) #until L3
-summary (data_t18$mortality_L2) #until L3
-summary (data_t21$mortality_L2) #until L3
-summary (data_t25$mortality_L2) #until L3
-summary (data_t28$mortality_L2) #until L3
+summary (data_t15$mortality_L2) #until L2
+summary (data_t18$mortality_L2) #until L2
+summary (data_t21$mortality_L2) #until L2
+summary (data_t25$mortality_L2) #until L2
+summary (data_t28$mortality_L2) #until L2
 
 summary (data_t15$mortality_L3) #of L3
 summary (data_t18$mortality_L3) #of L3
@@ -36,12 +38,29 @@ summary (data_t21$mortality_L3) #of L3
 summary (data_t25$mortality_L3) #of L3
 summary (data_t28$mortality_L3) #of L3
 
+summary (data_t15$mortality_L1) #of L1
+summary (data_t18$mortality_L1) #of L1
+summary (data_t21$mortality_L1) #of L1
+summary (data_t25$mortality_L1) #of L1
+summary (data_t28$mortality_L1) #of L1
+
 (1-0.1429)*100
 (1-0.03077)*100
 (1-0.1458)*100
 (1-0.03704)*100
 
 #Plot of mean mortality for each treatment
+#First Instar mortality
+mort_15 <-(1-mean(data_t15$mortality_L1))*100 #until L3
+mort_18 <-(1-mean(data_t18$mortality_L1))*100 #until L3
+mort_21 <-(1-mean(data_t21$mortality_L1))*100 #until L3
+mort_25 <-(1-mean(data_t25$mortality_L1))*100 #until L3
+mort_28 <-100 #until L3
+mort0 <- c(mort_15, mort_18, mort_21, mort_25)
+temp0 <- c(15,18,21,25)
+plot (mort0~temp0, type="o" , col="black", pch=16, 
+      main = "mean mortality of first instar", ylim=c(0,100))
+
 #SEcond Instar
 mort_15 <-(1-mean(data_t15$mortality_L2))*100 #until L3
 mort_18 <-(1-mean(data_t18$mortality_L2))*100 #until L3
@@ -71,11 +90,11 @@ mort3 <- c(mort_15, mort_18, mort_21, mort_25)
 plot (mort3~temp1, type="o" , col="black", pch=16, 
       main = "mean mortality until adulthood", ylim=c(0,100))
 
-mort = c(mort1, mort2, mort3)
+mort = c(mort0, mort1, mort2, mort3)
 mort= as.numeric (mort)
-temp = c(temp1, temp1, temp1)
+temp = c(temp0, temp1, temp1, temp1)
 temp= as.numeric (temp)
-instar = c("second", "second", "second", "second", "third", "third", "third", "third", "adult",
+instar = c("first", "first", "first", "first","second", "second", "second", "second", "third", "third", "third", "third", "adult",
            "adult", "adult", "adult")
 data_mort = data.frame (cbind(mort, temp, instar))
 data_mort$mort= as.vector (data_mort$mort)
@@ -87,6 +106,7 @@ is.factor(data_mort$mort)
 
 #renaming factors for legend
 dm = data_mort
+levels (dm$instar)[levels(dm$instar)=="first"] = "First instar"
 levels (dm$instar)[levels(dm$instar)=="second"] = "Second instar"
 levels (dm$instar)[levels(dm$instar)=="third"] = "Third instar"
 levels (dm$instar)[levels(dm$instar)=="adult"] = "Pupae"
