@@ -102,6 +102,7 @@ tiff (filename="exports/sciodrepoides_mortality.tiff",
 ggplot (data= dm, aes(x=temp, y=mort, group= Stage, shape=Stage, fill=Stage)) + 
   geom_point (size=4, aes (temp, mort, group = factor(Stage), colour=Stage)) +
   geom_line(aes(temp, mort, group = factor(Stage), colour=Stage))+
+  ylim(0,100)+
   xlab("Temperature (°C)")+
   ylab("Mortality (%)")
 dev.off()
