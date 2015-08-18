@@ -44,6 +44,11 @@ levels (data_l1$jedinec) # 252 individuals were photographed of L1 class
 levels (data_l2$jedinec) # 175 individuals were photographed of L2 class
 levels (data_l3$jedinec) # 127 individuals were photographed of L3 class
 
+#maximum and minimum width of each instar
+summary (data_l1$delka)
+summary (data_l2$delka)
+summary (data_l3$delka)
+
 #plot of 
 par (mfrow = c(1,2))
 plot (data$delka~data$instar)
