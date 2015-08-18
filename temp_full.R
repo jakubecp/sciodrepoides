@@ -12,6 +12,7 @@ data_t21 = data [data$temp=="21",] # data for 21°C
 data_t25 = data [data$temp=="25",] # data for 25°C
 data_t28 = data [data$temp=="28",] # data for 28°C
 
+library (ggplot2)
 #interaction plot of individual growth rate
 
 interaction.plot (data$fotka, data$X, data$delka)
@@ -70,21 +71,52 @@ mort3 <- c(mort_15, mort_18, mort_21, mort_25)
 plot (mort3~temp1, type="o" , col="black", pch=16, 
       main = "mean mortality until adulthood", ylim=c(0,100))
 
+mort = c(mort1, mort2, mort3)
+mort= as.numeric (mort)
+temp = c(temp1, temp1, temp1)
+temp= as.numeric (temp)
+instar = c("second", "second", "second", "second", "third", "third", "third", "third", "adult",
+           "adult", "adult", "adult")
+data_mort = data.frame (cbind(mort, temp, instar))
+data_mort$mort= as.vector (data_mort$mort)
+data_mort$temp= as.vector (data_mort$temp)
+data_mort$mort= as.numeric (data_mort$mort)
+data_mort$temp= as.numeric (data_mort$temp)
+
+is.factor(data_mort$mort)
+
+#renaming factors for legend
+dm = data_mort
+levels (dm$instar)[levels(dm$instar)=="second"] = "Second instar"
+levels (dm$instar)[levels(dm$instar)=="third"] = "Third instar"
+levels (dm$instar)[levels(dm$instar)=="adult"] = "Pupae"
+names(dm)[names(dm)=="instar"] = "Stage"
+
+
 #Generate and export graph for mortality
 tiff (filename="exports/sciodrepoides_mortality.tiff", 
       width=5000, height=5000, 
       compression="lzw", res= 800)
-plot (mort1~temp1, pch=0, 
-      ylim=c(0,100), xlim=c(15, 26), 
-      xlab="Temperature (°C)", ylab="Mortality (%)")
-points (temp1, mort2,  pch=1)
-points (temp1, mort3,  pch=2)
-lines (temp1, mort2,  pch=16, lty=3)
-lines (temp1, mort3,  pch=16, lty=2)
-lines (temp1, mort1,  pch=16, lty=1)
-legend (23,20, c("2nd instar", "3rd instar", "pupae"),
-        pch = c(0,1,2), lty = c(1,3,2), merge=TRUE)
+
+#optimized version in ggplot
+ggplot (data= dm, aes(x=temp, y=mort, group= Stage, shape=Stage, fill=Stage)) + 
+  geom_point (size=4, aes (temp, mort, group = factor(Stage), colour=Stage)) +
+  geom_line(aes(temp, mort, group = factor(Stage), colour=Stage))+
+  xlab("Temperature (°C)")+
+  ylab("Mortality (%)")
 dev.off()
+#classical version with a plot function
+# plot (mort1~temp1, pch=0, 
+#       ylim=c(0,100), xlim=c(15, 26), 
+#       xlab="Temperature (°C)", ylab="Mortality (%)")
+# points (temp1, mort2,  pch=1)
+# points (temp1, mort3,  pch=2)
+# lines (temp1, mort2,  pch=16, lty=3)
+# lines (temp1, mort3,  pch=16, lty=2)
+# lines (temp1, mort1,  pch=16, lty=1)
+# legend (23,20, c("2nd instar", "3rd instar", "pupae"),
+#         pch = c(0,1,2), lty = c(1,3,2), merge=TRUE)
+
 
 
 
