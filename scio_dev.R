@@ -18,7 +18,9 @@ library (spocc) #mrtvy
 library (rJava) #OK
 library (rworldmap) #OK
 newmap = getMap(resolution="low") #function from package rworldmap
+install.packages("ggmap")
 
+head (coord.unfiltered)
 # #RAW data from GBIF (only records with coordinates and you should set up upper limit of them)
 # Sciod.watsoni<- occ_search(scientificName = "Sciodrepoides watsoni",
 #                            hasCoordinate= TRUE, limit = 3215)
@@ -76,9 +78,24 @@ str (coord)
 coord.long <- as.numeric (coord$long)
 coord.lat <- as.numeric (coord$lat)
 coord.unfiltered <- cbind (coord.long, coord.lat)
-X11()
-plot (newmap, xlim=c(-10,55), ylim=c(40,65))
-points (coord.unfiltered, col="blue")
+
+# X11()
+# plot (newmap, xlim=c(-10,55), ylim=c(40,65))
+# points (coord.unfiltered, col="blue", pch=16)
+
+#map of s. watsoni occurence in Europe
+library(ggmap)
+map=get_map (location="Europe", zoom=4)
+coord.unfiltered = data.frame (coord.unfiltered)
+
+tiff (filename="exports/sciodrepoides_occurence.tiff", 
+      width=2000, height=2000, 
+      compression="lzw", res= 300)
+sciod.occur=  ggmap(map)+
+  geom_point (aes (x= coord.long, y = coord.lat), data = coord.unfiltered)+
+  xlab("")+
+  ylab("")
+dev.off()
 
 #choose the right (important) climatic variables (http://www.worldclim.org/bioclim) 
 #for your species and stack them! USE ENFA (package adehabitat) for selection of the 
