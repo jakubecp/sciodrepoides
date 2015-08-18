@@ -27,7 +27,6 @@ summary(lm.5)
 
 
 getwd()
-
 p1= qplot (data_13$egg,data_13$DT_egg,
            xlab=substitute("Development (h)"),
            ylab=substitute("Development * Temperature (hD)"),
