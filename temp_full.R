@@ -11,43 +11,13 @@ data_t18 = data [data$temp=="18",] # data for 18°C
 data_t21 = data [data$temp=="21",] # data for 21°C
 data_t25 = data [data$temp=="25",] # data for 25°C
 data_t28 = data [data$temp=="28",] # data for 28°C
-
-
+summary (data_13)
 
 library (ggplot2)
 #interaction plot of individual growth rate
 
 interaction.plot (data$fotka, data$X, data$delka)
 
-#Mortality
-summary (data_t15$mortality_total) #until adulthood
-summary (data_t18$mortality_total) #until adulthood
-summary (data_t21$mortality_total) #until adulthood
-summary (data_t25$mortality_total) #until adulthood
-summary (data_t28$mortality_total) #until adulthood
-
-summary (data_t15$mortality_L2) #until L2
-summary (data_t18$mortality_L2) #until L2
-summary (data_t21$mortality_L2) #until L2
-summary (data_t25$mortality_L2) #until L2
-summary (data_t28$mortality_L2) #until L2
-
-summary (data_t15$mortality_L3) #of L3
-summary (data_t18$mortality_L3) #of L3
-summary (data_t21$mortality_L3) #of L3
-summary (data_t25$mortality_L3) #of L3
-summary (data_t28$mortality_L3) #of L3
-
-summary (data_t15$mortality_L1) #of L1
-summary (data_t18$mortality_L1) #of L1
-summary (data_t21$mortality_L1) #of L1
-summary (data_t25$mortality_L1) #of L1
-summary (data_t28$mortality_L1) #of L1
-
-(1-0.1429)*100
-(1-0.03077)*100
-(1-0.1458)*100
-(1-0.03704)*100
 
 #Plot of mean mortality for each treatment
 #First Instar mortality
@@ -114,9 +84,9 @@ names(dm)[names(dm)=="instar"] = "Stage"
 
 
 #Generate and export graph for mortality
-tiff (filename="exports/sciodrepoides_mortality.tiff", 
-      width=5000, height=5000, 
-      compression="lzw", res= 800)
+# tiff (filename="exports/sciodrepoides_mortality.tiff", 
+#       width=5000, height=5000, 
+#       compression="lzw", res= 800)
 
 #optimized version in ggplot
 ggplot (data= dm, aes(x=temp, y=mort, group= Stage, shape=Stage, fill=Stage)) + 
@@ -125,7 +95,7 @@ ggplot (data= dm, aes(x=temp, y=mort, group= Stage, shape=Stage, fill=Stage)) +
   ylim(0,100)+
   xlab("Temperature (°C)")+
   ylab("Mortality (%)")
-dev.off()
+# dev.off()
 #classical version with a plot function
 # plot (mort1~temp1, pch=0, 
 #       ylim=c(0,100), xlim=c(15, 26), 
@@ -138,7 +108,71 @@ dev.off()
 # legend (23,20, c("2nd instar", "3rd instar", "pupae"),
 #         pch = c(0,1,2), lty = c(1,3,2), merge=TRUE)
 
+## New dataset based on the location of origin
+data_loc1 = data [data$loc== "Bestvi",]
+data_loc2 = data [data$loc== "Praha",]
+data_loc1_13 = data_13 [data_13$loc== "Bestvi",]
+data_loc2_13 = data_13 [data_13$loc== "Praha",]
+data_loc = rbind (data_loc1_13, data_loc2_13)
+summary (data_loc2_13)
+loc.1=lm(data_loc$DT_egg~data_loc$egg)
+loc.2=lm(data_loc$DT_egg~data_loc$egg+data_loc$loc)
+loc.3=lm(data_loc$DT_egg~data_loc$egg*data_loc$loc)
+summary (loc.1)
+summary (loc.2)
+summary (loc.3)
+AIC (loc.1, loc.2, loc.3)
+BIC (loc.1, loc.2, loc.3)
 
+#boxplot for only two localities and 2013
+boxplot (data_loc1$DT_egg, data_loc1$DT_L1, data_loc1$DT_L2, data_loc1$DT_L3, data_loc1$DT_pupae)
+boxplot (data_loc2$DT_egg, data_loc2$DT_L1, data_loc2$DT_L2, data_loc2$DT_L3, data_loc2$DT_pupae)
+
+boxplot (data_loc1_13$DT_egg, data_loc1_13$DT_L1, data_loc1_13$DT_L2, data_loc1_13$DT_L3, data_loc1_13$DT_pupae)
+boxplot (data_loc2_13$DT_egg, data_loc2_13$DT_L1, data_loc2_13$DT_L2, data_loc2_13$DT_L3, data_loc2_13$DT_pupae)
+
+##Tmin + SET - DT~D
+#Bestvina 2013
+lm.1_1=lm(data_loc1_13$DT_egg~data_loc1_13$egg)
+summary(lm.1_1)
+lm.2_1=lm(data_loc1_13$DT_L1~data_loc1_13$L1)
+summary(lm.2_1)
+lm.3_1=lm(data_loc1_13$DT_L2~data_loc1_13$L2)
+summary(lm.3_1)
+lm.4_1=lm(data_loc1_13$DT_L3 ~data_loc1_13$L3)
+summary(lm.4_1)
+lm.5_1=lm(data_loc1_13$DT_pupae~data_loc1_13$pupae)
+summary(lm.5_1)
+
+#Praha 2013
+lm.1_2=lm(data_loc2_13$DT_egg~data_loc2_13$egg)
+summary(lm.1)
+lm.2_2=lm(data_loc2_13$DT_L1~data_loc2_13$L1)
+summary(lm.2)
+lm.3_2=lm(data_loc2_13$DT_L2~data_loc2_13$L2)
+summary(lm.3)
+lm.4_2=lm(data_loc2_13$DT_L3 ~data_loc2_13$L3)
+summary(lm.4_2)
+lm.5_2=lm(data_loc2_13$DT_pupae~data_loc2_13$pupae)
+summary(lm.5)
+
+str(lm.1)
+set1_13 = c(lm.1_1$coefficients[1], lm.2_1$coefficients[1], 
+            lm.3_1$coefficients[1], lm.4_1$coefficients[1],
+            0)
+set2_13 = c(lm.1_2$coefficients[1], lm.2_2$coefficients[1], 
+            lm.3_2$coefficients[1], 0,
+            0)
+
+tmin1_13 = c(lm.1_1$coefficients[2], lm.2_1$coefficients[2], 
+            lm.3_1$coefficients[2], lm.4_1$coefficients[2],
+            0)
+tmin2_13 = c(lm.1_2$coefficients[2], lm.2_2$coefficients[2], 
+            lm.3_2$coefficients[2], 0,
+            0)
+
+set_13 = data.frame (set1_13,set2_13)
+tmin_13 = data.frame (tmin1_13,tmin2_13)
 
 
 #boxplots 
@@ -182,6 +216,10 @@ shapiro.test(data$DT_L2)
 shapiro.test(data$DT_L3)
 shapiro.test(data$DT_pupae)
 
+
+data_loc1 = data [data$loc== "Bestvi",]
+data_loc2 = data [data$loc== "Praha",]
+
 #hist
 hist(data$DT_egg, breaks=10, prob=FALSE, xlab='DT', ylab='Density', main='Histogram of development rate', col='grey')
 
@@ -197,6 +235,30 @@ summary(lm.4)
 lm.5=lm(data$DT_pupae~data$pupae)
 summary(lm.5)
 
+str(lm.4)
+set = c(lm.1$coefficients[1], lm.2$coefficients[1], 
+        lm.3$coefficients[1], lm.4$coefficients[1],
+        lm.5$coefficients[1])
+
+tmin = c(lm.1$coefficients[2], lm.2$coefficients[2], 
+             lm.3$coefficients[2], lm.4$coefficients[2],
+             lm.5$coefficients[2])
+
+sum_lm = summary (lm.1)
+str (sum_lm)
+
+std.error_tmin = c(summary (lm.1)$coefficients [2,2], summary (lm.2)$coefficients [2,2],
+              summary (lm.3)$coefficients [2,2], summary (lm.4)$coefficients [2,2],
+              summary (lm.5)$coefficients [2,2])
+
+std.error_sum = c(summary (lm.1)$coefficients [1,2], summary (lm.2)$coefficients [1,2],
+                   summary (lm.3)$coefficients [1,2], summary (lm.4)$coefficients [1,2],
+                   summary (lm.5)$coefficients [1,2])
+
+#SET and Tmin of Ikemoto model with their std. errors
+dev.char = data.frame (set,std.error_sum, tmin,  std.error_tmin)
+
+write.csv (dev.char, file="exports/dev_char.csv")
 
 
 plot(data_13$DT_egg~data_13$egg, xlab='Development(h)',
