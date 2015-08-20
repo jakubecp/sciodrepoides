@@ -13,10 +13,110 @@ data_t25 = data [data$temp=="25",] # data for 25°C
 data_t28 = data [data$temp=="28",] # data for 28°C
 summary (data_13)
 
+data_13_t15 = data_13 [data_13$temp=="15",] # data for 15°C
+data_13_t18 = data_13 [data_13$temp=="18",] # data for 15°C
+data_13_t21 = data_13 [data_13$temp=="21",] # data for 15°C
+data_13_t25 = data_13 [data_13$temp=="25",] # data for 15°C
+
+
+
 library (ggplot2)
+library (plotrix)
+
+
 #interaction plot of individual growth rate
 
 interaction.plot (data$fotka, data$X, data$delka)
+
+#mean development time in various temperatures
+
+
+devel = c(data_13$egg, data_13$L1, data$L2, data$L3, data$pupae)
+temp = c(data_13$temp, data_13$temp, data$temp, data$temp, data$temp)
+factor = c(rep ("egg", times=length(data_13$egg)), rep ("L1", times=length(data_13$L1)),
+           rep ("L2", times=length(data$L2)), rep ("L3", times=length(data$L3)),
+           rep ("pupae", times=length(data$pupae)))
+
+dev.length = data.frame (devel, factor, temp)
+dev.length$temp = as.factor(dev.length$temp)
+
+#boxplots of development times
+tiff (filename="exports/sciodrepoides_dev_time.tiff", 
+      width=5000, height=5000, 
+      compression="lzw", res= 800)
+p = ggplot (dev.length, aes (factor, devel))
+p + geom_boxplot() + 
+  stat_summary (fun.y=mean, colour="darkred", 
+                geom="point", shape=18, size=3)+
+  xlab("Developmental stage")+
+  ylab("Development time (h)")
+dev.off()
+  
+
+#mean development time and its standard errors
+se <- function(x) sqrt(var(x)/length(x))
+mean (data_13$egg, na.rm=TRUE)
+mean (data_13$L1, na.rm=TRUE)
+mean (data$L2, na.rm=TRUE)
+mean (data$L3, na.rm=TRUE)
+mean (data$pupae, na.rm=TRUE)
+
+std.error (data_13$egg, na.rm=TRUE)
+std.error (data_13$L1, na.rm=TRUE)
+std.error (data$L2, na.rm=TRUE)
+std.error (data$L3, na.rm=TRUE)
+std.error (data$pupae, na.rm=TRUE)
+
+#mean development time in different temperatures
+
+data_13_t15 = data_13 [data_13$temp=="15",] # data for 15°C
+data_13_t18 = data_13 [data_13$temp=="18",] # data for 15°C
+data_13_t21 = data_13 [data_13$temp=="21",] # data for 15°C
+data_13_t25 = data_13 [data_13$temp=="25",] # data for 15°C
+summary (data_13_t25)
+
+#egg
+mean (data_13_t15$egg,na.rm=TRUE)
+mean (data_13_t18$egg,na.rm=TRUE)
+mean (data_13_t21$egg,na.rm=TRUE)
+mean (data_13_t25$egg,na.rm=TRUE)
+#L1
+mean (data_13_t15$L1,na.rm=TRUE)
+mean (data_13_t18$L1,na.rm=TRUE)
+mean (data_13_t21$L1,na.rm=TRUE)
+mean (data_13_t25$L1,na.rm=TRUE)
+#L2
+mean (data_t15$L2,na.rm=TRUE)
+mean (data_t18$L2,na.rm=TRUE)
+mean (data_t21$L2,na.rm=TRUE)
+mean (data_t25$L2,na.rm=TRUE)
+#L3
+mean (data_t15$L3,na.rm=TRUE)
+mean (data_t18$L3,na.rm=TRUE)
+mean (data_t21$L3,na.rm=TRUE)
+mean (data_t25$L3,na.rm=TRUE)
+#pupae
+mean (data_t15$pupae,na.rm=TRUE)
+mean (data_t18$pupae,na.rm=TRUE)
+mean (data_t21$pupae,na.rm=TRUE)
+mean (data_t25$pupae,na.rm=TRUE)
+
+
+
+#boxplots of development times across temperatures
+str(dev.length)
+dev.length$intr = interaction (dev.length$factor, dev.length$temp)
+
+tiff (filename="exports/sciodrepoides_dev_time.tiff", 
+      width=5000, height=5000, 
+      compression="lzw", res= 800)
+p = ggplot (dev.length, aes (y=devel, x=temp, fill=factor))
+p + geom_boxplot()+
+  xlab("Developmental stage")+
+  ylab("Experimental temperature (°C)")
+dev.off()
+
+
 
 
 #Plot of mean mortality for each treatment
