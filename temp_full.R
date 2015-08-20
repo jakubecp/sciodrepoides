@@ -111,12 +111,22 @@ tiff (filename="exports/sciodrepoides_dev_time.tiff",
       width=5000, height=5000, 
       compression="lzw", res= 800)
 p = ggplot (dev.length, aes (y=devel, x=temp, fill=factor))
-p + geom_boxplot()+
+p + geom_bar()+
   xlab("Developmental stage")+
   ylab("Experimental temperature (°C)")
 dev.off()
 
+p = ggplot (dev.length, aes (y=devel, x=temp, fill=factor, color=factor))
+p + stat_summary(fun.y=mean, position_dodge(),geom="bar")+
+  xlab("Experimental temperature (°C)")+
+  ylab("Developmental time")
+stat_summary(fun.y=mean,position_dodge(),geom="bar")
 
+p1<-ggplot(mtc,aes(x=factor(gear),y=wt,fill=factor(vs)), color=factor(vs)) +  
+  stat_summary(fun.y=mean,position=position_dodge(),geom="bar")
+
+p2<-ggplot(mtc,aes(x=factor(gear),y=wt,fill=factor(vs)), color=factor(vs)) +  
+  stat_summary(fun.y=mean,position="stack",geom="bar")
 
 
 #Plot of mean mortality for each treatment
