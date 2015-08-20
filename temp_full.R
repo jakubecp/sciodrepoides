@@ -18,6 +18,14 @@ data_13_t18 = data_13 [data_13$temp=="18",] # data for 15°C
 data_13_t21 = data_13 [data_13$temp=="21",] # data for 15°C
 data_13_t25 = data_13 [data_13$temp=="25",] # data for 15°C
 
+devel = c(data_13$egg, data_13$L1, data$L2, data$L3, data$pupae)
+temp = c(data_13$temp, data_13$temp, data$temp, data$temp, data$temp)
+Stage = c(rep ("egg", times=length(data_13$egg)), rep ("L1", times=length(data_13$L1)),
+           rep ("L2", times=length(data$L2)), rep ("L3", times=length(data$L3)),
+           rep ("pupae", times=length(data$pupae)))
+
+dev.length = data.frame (devel, factor, temp)
+dev.length$temp = as.factor(dev.length$temp)
 
 
 library (ggplot2)
@@ -31,20 +39,12 @@ interaction.plot (data$fotka, data$X, data$delka)
 #mean development time in various temperatures
 
 
-devel = c(data_13$egg, data_13$L1, data$L2, data$L3, data$pupae)
-temp = c(data_13$temp, data_13$temp, data$temp, data$temp, data$temp)
-factor = c(rep ("egg", times=length(data_13$egg)), rep ("L1", times=length(data_13$L1)),
-           rep ("L2", times=length(data$L2)), rep ("L3", times=length(data$L3)),
-           rep ("pupae", times=length(data$pupae)))
-
-dev.length = data.frame (devel, factor, temp)
-dev.length$temp = as.factor(dev.length$temp)
 
 #boxplots of development times
 tiff (filename="exports/sciodrepoides_dev_time.tiff", 
       width=5000, height=5000, 
       compression="lzw", res= 800)
-p = ggplot (dev.length, aes (factor, devel))
+p = ggplot (dev.length, aes (Stage, devel))
 p + geom_boxplot() + 
   stat_summary (fun.y=mean, colour="darkred", 
                 geom="point", shape=18, size=3)+
@@ -103,30 +103,21 @@ mean (data_t25$pupae,na.rm=TRUE)
 
 
 
-#boxplots of development times across temperatures
+#barplot of development times across temperatures
 str(dev.length)
-dev.length$intr = interaction (dev.length$factor, dev.length$temp)
+dev.length$intr = interaction (dev.length$Stage, dev.length$temp)
 
-tiff (filename="exports/sciodrepoides_dev_time.tiff", 
+
+tiff (filename="exports/sciodrepoides_mean_dev_time.tiff", 
       width=5000, height=5000, 
       compression="lzw", res= 800)
-p = ggplot (dev.length, aes (y=devel, x=temp, fill=factor))
-p + geom_bar()+
-  xlab("Developmental stage")+
-  ylab("Experimental temperature (°C)")
+p = ggplot (dev.length, aes (y=devel, x=temp, fill=Stage))
+p + stat_summary(fun.y=mean, geom="bar", position=position_dodge())+
+  xlab("Experimental temperature (°C)")+
+  ylab("Developmental time")+
+  scale_fill_brewer(type="seq", palette=8)
 dev.off()
 
-p = ggplot (dev.length, aes (y=devel, x=temp, fill=factor, color=factor))
-p + stat_summary(fun.y=mean, position_dodge(),geom="bar")+
-  xlab("Experimental temperature (°C)")+
-  ylab("Developmental time")
-stat_summary(fun.y=mean,position_dodge(),geom="bar")
-
-p1<-ggplot(mtc,aes(x=factor(gear),y=wt,fill=factor(vs)), color=factor(vs)) +  
-  stat_summary(fun.y=mean,position=position_dodge(),geom="bar")
-
-p2<-ggplot(mtc,aes(x=factor(gear),y=wt,fill=factor(vs)), color=factor(vs)) +  
-  stat_summary(fun.y=mean,position="stack",geom="bar")
 
 
 #Plot of mean mortality for each treatment
