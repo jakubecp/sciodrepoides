@@ -24,12 +24,11 @@ Stage = c(rep ("egg", times=length(data_13$egg)), rep ("L1", times=length(data_1
            rep ("L2", times=length(data$L2)), rep ("L3", times=length(data$L3)),
            rep ("pupae", times=length(data$pupae)))
 
-dev.length = data.frame (devel, Stage, temp)
+dev.length = data.frame (devel, factor, temp)
 dev.length$temp = as.factor(dev.length$temp)
 
 
 library (ggplot2)
-
 library (plotrix)
 
 
@@ -115,7 +114,7 @@ tiff (filename="exports/sciodrepoides_mean_dev_time.tiff",
 p = ggplot (dev.length, aes (y=devel, x=temp, fill=Stage))
 p + stat_summary(fun.y=mean, geom="bar", position=position_dodge())+
   xlab("Experimental temperature (°C)")+
-  ylab("Developmental time (h)")+
+  ylab("Developmental time")+
   scale_fill_brewer(type="seq", palette=8)
 dev.off()
 
@@ -197,6 +196,7 @@ ggplot (data= dm, aes(x=temp, y=mort, group= Stage, shape=Stage, fill=Stage)) +
   ylim(0,100)+
   xlab("Temperature (°C)")+
   ylab("Mortality (%)")
+  #scale_colour_brewer(type="seq", palette=8)
 # dev.off()
 #classical version with a plot function
 # plot (mort1~temp1, pch=0, 
