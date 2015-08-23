@@ -1,5 +1,6 @@
 rm(list = ls())
-data = read.csv("Data/cholevinae_full.csv", header=TRUE, sep = ";")
+#data = read.csv("Data/cholevinae_full.csv", header=TRUE, sep = ";") #Hours degrees
+data = read.csv("Data/cholevinae_full_dd1.csv", header=TRUE, sep = ";") #Day degrees
 head(data)
 summary(data)
 class(data$DT_egg)
@@ -7,7 +8,6 @@ class (data$temp)
 data_12 = data [data$year=="2012",] # data for 2012
 data_13 = data [data$year=="2013",] # data for 2013
 library(ggplot2)
-library(grid)
 library(gridExtra)
 
 #Tmin + SET - DT~D

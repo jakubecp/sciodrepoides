@@ -24,7 +24,7 @@ Stage = c(rep ("egg", times=length(data_13$egg)), rep ("L1", times=length(data_1
            rep ("L2", times=length(data$L2)), rep ("L3", times=length(data$L3)),
            rep ("pupae", times=length(data$pupae)))
 
-dev.length = data.frame (devel, factor, temp)
+dev.length = data.frame (devel, Stage, temp)
 dev.length$temp = as.factor(dev.length$temp)
 
 
