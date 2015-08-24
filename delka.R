@@ -11,16 +11,27 @@ class (data$teplota)
 data$teplota = as.factor (data$teplota) # for length/temperature models
 summary (data)
 
+library(ggplot2)
+
 #plot of individual growth in time
 interaction.plot (data$instar, data$jedinec, data$delka)
 interaction.plot (data$fotka, data$jedinec, data$delka)
 length(data$delka)
 
+#data renaming
+#renaming factors for legend
+dm = data
+str(dm)
+levels (dm$instar)[levels(dm$instar)=="l1"] = "L1"
+levels (dm$instar)[levels(dm$instar)=="l2"] = "L2"
+levels (dm$instar)[levels(dm$instar)=="l3"] = "L3"
+levels (dm$instar)[levels(dm$instar)=="adult"] = "Pupae"
+names(dm)[names(dm)=="instar"] = "Stage"
 
 # plot of lengths in different instars
 tiff (filename="exports/sciodrepoides_length.tiff", width=5000, height=6000, 
       compression="lzw", res= 800)
-qplot (data$instar,data$delka,
+qplot (dm$instar,dm$delka,
        geom="boxplot",
       xlab=substitute("Instar"),
       ylab=substitute ("Length (mm)"))
