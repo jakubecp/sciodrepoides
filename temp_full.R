@@ -19,14 +19,20 @@ data_13_t21 = data_13 [data_13$temp=="21",] # data for 15°C
 data_13_t25 = data_13 [data_13$temp=="25",] # data for 15°C
 
 devel = c(data_13$egg, data_13$L1, data$L2, data$L3, data$pupae)
+DD = c (data_13$DT_egg, data_13$DT_L1, data$DT_L2, data$DT_L3, data$DT_pupae)
 temp = c(data_13$temp, data_13$temp, data$temp, data$temp, data$temp)
 Stage = c(rep ("egg", times=length(data_13$egg)), rep ("L1", times=length(data_13$L1)),
            rep ("L2", times=length(data$L2)), rep ("L3", times=length(data$L3)),
            rep ("pupae", times=length(data$pupae)))
 
-dev.length = data.frame (devel, Stage, temp)
+dev.length = data.frame (devel, DD, Stage, temp)
 dev.length$temp = as.factor(dev.length$temp)
-
+dev.length = dev.length[complete.cases(dev.length),]
+length (dev.length$DD[dev.length$Stage == "egg"])
+length (dev.length$DD[dev.length$Stage == "L1"])
+length (dev.length$DD[dev.length$Stage == "L2"])
+length (dev.length$DD[dev.length$Stage == "L3"])
+length (dev.length$DD[dev.length$Stage == "pupae"])
 
 library (ggplot2)
 library (plotrix)
