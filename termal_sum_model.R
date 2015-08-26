@@ -28,32 +28,32 @@ summary(lm.5)
 
 getwd()
 p1= qplot (data_13$egg,data_13$DT_egg,
-           xlab=substitute("Development (h)"),
-           ylab=substitute("Development * Temperature (hD)"),
+           xlab=substitute("Hours"),
+           ylab=substitute("DT"),
        main="Egg")
 a1 = p1 + stat_smooth(method="lm", se=TRUE, colour="black")
 
 p2= qplot (data$L1,data$DT_L1,
-           xlab=substitute("Development (h)"),
-           ylab=substitute("Development * Temperature (hD)"),
+           xlab=substitute("Hours"),
+           ylab=substitute("DT"),
            main="L1")
 a2= p2 + stat_smooth(method="lm", se=TRUE, colour="black")
 
 p3= qplot (data$L2,data$DT_L2,
-           xlab=substitute("Development (h)"),
-           ylab=substitute("Development * Temperature (hD)"),
+           xlab=substitute("Hours"),
+           ylab=substitute("DT"),
            main="L2")
 a3= p3 + stat_smooth(method="lm", se=TRUE, colour="black")
 
 p4= qplot (data$L3,data$DT_L3,
-           xlab=substitute("Development (h)"),
-           ylab=substitute("Development * Temperature (hD)"),
+           xlab=substitute("Hours"),
+           ylab=substitute("DT"),
            main="L3")
 a4= p4 + stat_smooth(method="lm", se=TRUE, colour="black")
 
 p5= qplot (data$pupae,data$DT_pupae,
-           xlab=substitute("Development (h)"),
-           ylab=substitute("Development * Temperature (hD)"),
+           xlab=substitute("Hours"),
+           ylab=substitute("DT"),
            main="Pupae")
 a5= p5 + stat_smooth(method="lm", se=TRUE, colour="black")
 tiff (filename="exports/sciodrepoides_development.tiff", 
