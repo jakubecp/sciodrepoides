@@ -37,6 +37,34 @@ length (dev.length$DD[dev.length$Stage == "pupae"])
 library (ggplot2)
 library (plotrix)
 
+dev.dur = c(median (dev.length$devel[dev.length$Stage == "egg" & dev.length$temp=="15"]),
+median (dev.length$devel[dev.length$Stage == "egg" & dev.length$temp=="18"]),
+median (dev.length$devel[dev.length$Stage == "egg" & dev.length$temp=="21"]),
+median (dev.length$devel[dev.length$Stage == "egg" & dev.length$temp=="25"]),
+
+median (dev.length$devel[dev.length$Stage == "L1" & dev.length$temp=="15"]),
+median (dev.length$devel[dev.length$Stage == "L1" & dev.length$temp=="18"]),
+median (dev.length$devel[dev.length$Stage == "L1" & dev.length$temp=="21"]),
+median (dev.length$devel[dev.length$Stage == "L1" & dev.length$temp=="25"]),
+
+median (dev.length$devel[dev.length$Stage == "L2" & dev.length$temp=="15"]),
+median (dev.length$devel[dev.length$Stage == "L2" & dev.length$temp=="18"]),
+median (dev.length$devel[dev.length$Stage == "L2" & dev.length$temp=="21"]),
+median (dev.length$devel[dev.length$Stage == "L2" & dev.length$temp=="25"]),
+
+median (dev.length$devel[dev.length$Stage == "L3" & dev.length$temp=="15"]),
+median (dev.length$devel[dev.length$Stage == "L3" & dev.length$temp=="18"]),
+median (dev.length$devel[dev.length$Stage == "L3" & dev.length$temp=="21"]),
+median (dev.length$devel[dev.length$Stage == "L3" & dev.length$temp=="25"]),
+
+median (dev.length$devel[dev.length$Stage == "pupae" & dev.length$temp=="15"]),
+median (dev.length$devel[dev.length$Stage == "pupae" & dev.length$temp=="18"]),
+median (dev.length$devel[dev.length$Stage == "pupae" & dev.length$temp=="21"]),
+median (dev.length$devel[dev.length$Stage == "pupae" & dev.length$temp=="25"]))
+
+
+
+
 
 #interaction plot of individual growth rate
 
