@@ -20,6 +20,7 @@ summary(lm.3)
 lm.4=lm(data$DT_L3 ~data$L3)
 summary(lm.4)
 lm.5=lm(data$DT_pupae~data$pupae)
+anova (lm.5)
 summary(lm.5)
 
 
