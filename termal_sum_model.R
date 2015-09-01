@@ -1,6 +1,6 @@
 rm(list = ls())
-#data = read.csv("Data/cholevinae_full.csv", header=TRUE, sep = ";") #Hours degrees
-data = read.csv("Data/cholevinae_full_dd1.csv", header=TRUE, sep = ";") #Day degrees
+data = read.csv("Data/cholevinae_full.csv", header=TRUE, sep = ";") #Hours degrees
+#data = read.csv("Data/cholevinae_full_dd1.csv", header=TRUE, sep = ";") #Day degrees
 head(data)
 summary(data)
 class(data$DT_egg)
@@ -34,7 +34,7 @@ p1= qplot (data_13$egg,data_13$DT_egg,
        main="Egg")
 a1 = p1 + stat_smooth(method="lm", se=TRUE, colour="black")
 
-p2= qplot (data$L1,data$DT_L1,
+p2= qplot (data_13$L1,data_13$DT_L1,
            xlab=substitute("Hours"),
            ylab=substitute("DT"),
            main="L1")
@@ -57,9 +57,9 @@ p5= qplot (data$pupae,data$DT_pupae,
            ylab=substitute("DT"),
            main="Pupae")
 a5= p5 + stat_smooth(method="lm", se=TRUE, colour="black")
-tiff (filename="exports/sciodrepoides_development.tiff", 
-      width=8000, height=12000, 
-      compression="lzw", res= 800)
+#tiff (filename="exports/sciodrepoides_development.tiff", 
+#      width=8000, height=12000, 
+#      compression="lzw", res= 800)
 grid.arrange (a1,a2, a3, a4, a5, ncol=2)
 dev.off()
 

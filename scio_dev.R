@@ -54,7 +54,7 @@ coord.gbif = data.frame (long=scio.gbif$longitude,
 
 # ## solution for transformation of DMS to decimal degrees
 ## with celestila packages and function dms2deg
-install.packages("celestial")
+#install.packages("celestial")
 library (celestial)
 
 data.sw <- read.csv("Data/sc.watsoni.csv", header=TRUE, sep=";")
