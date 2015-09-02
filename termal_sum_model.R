@@ -7,6 +7,7 @@ class(data$DT_egg)
 class (data$temp)
 data_12 = data [data$year=="2012",] # data for 2012
 data_13 = data [data$year=="2013",] # data for 2013
+
 library(ggplot2)
 library(gridExtra)
 
@@ -25,9 +26,6 @@ summary(lm.5)
 
 
 #Plot of thermal summation models on DT data
-
-
-getwd()
 p1= qplot (data_13$egg,data_13$DT_egg,
            xlab=substitute("Hours"),
            ylab=substitute("DT"),
@@ -61,43 +59,14 @@ a5= p5 + stat_smooth(method="lm", se=TRUE, colour="black")
 #      width=8000, height=12000, 
 #      compression="lzw", res= 800)
 grid.arrange (a1,a2, a3, a4, a5, ncol=2)
-dev.off()
-
-# par (mfrow=c(3,2)) # ,mar=rep(2,4)
-# plot(data_13$DT_egg~data_13$egg, 
-#      xlab="Development(h)",
-#      ylab="Development*Temperature (hD)", 
-#      main="Egg")
-# abline(lm.1, lwd=2)
-# 
-# plot(data$DT_L1~data$L1, 
-#      xlab="Development(h)",
-#      ylab="Development*Temperature (hD)", 
-#      main="L1")
-# abline(lm.2, lwd=2)
-# plot(data$DT_L2~data$L2, 
-#      xlab="Development(h)",
-#      ylab="Development*Temperature (hD)", 
-#      main="L2")
-# abline(lm.3, lwd=2)
-# plot(data$DT_L3 ~data$L3, 
-#      xlab="Development(h)",
-#      ylab="Development*Temperature (hD)", 
-#      main="L3")
-# abline(lm.4, lwd=2)
-# plot(data$DT_pupae~data$pupae, 
-#      xlab="Development(h)",
-#      ylab="Development*Temperature (hD)", 
-#      main="Pupae")
-# abline(lm.5, lwd=2)
-# dev.off()
+#dev.off()
 
 #COMPARISON OF TWO METHODS IN GRAPHICAL WAY
 t=11.3997
 k=929.3538
 lm.2=lm(data_13$r_egg~data_13$temp)
 summary (lm.2)
-#Plot of thermal summation models on 1/D data FITS perfectly!!!!!!!
+#Plot of thermal summation models on 1/D 
 plot(data_13$r_egg~data_13$temp, 
      ylab='Developmental rate(1/D)',
      xlab='Temperature (°C) ', 
@@ -106,14 +75,3 @@ plot(data_13$r_egg~data_13$temp,
      xlim=c(0,25))
 abline (a=-(t/k), b=1/k, col='green', lwd=1)
 abline (lm.2)
-
-
-plot(data$DT_L1~data$L1, xlab='D',ylab='DT ', main="L1")
-abline(lm.2, col='green', lwd=2)
-plot(data$DT_L2~data$L2, xlab='D',ylab='DT ', main="L2")
-abline(lm.3, col='green', lwd=2)
-plot(data$DT_L3 ~data$L3, xlab='D',ylab='DT ', main="L3")
-abline(lm.4, col='green', lwd=2)
-plot(data$DT_pupae~data$pupae, xlab='D',ylab='DT ', main="pupae")
-abline(lm.5, col='green', lwd=2)
-
