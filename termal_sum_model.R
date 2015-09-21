@@ -58,7 +58,7 @@ a5= p5 + stat_smooth(method="lm", se=TRUE, colour="black")
 #tiff (filename="exports/sciodrepoides_development.tiff", 
 #      width=8000, height=12000, 
 #      compression="lzw", res= 800)
-grid.arrange (a1,a2, a3, a4, a5, ncol=2)
+grid.arrange (a1,a2, a3, a4, a5, ncol=3)
 #dev.off()
 
 #COMPARISON OF TWO METHODS IN GRAPHICAL WAY

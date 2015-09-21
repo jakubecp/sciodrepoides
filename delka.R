@@ -47,7 +47,7 @@ tiff (filename="exports/sciodrepoides_length.tiff", width=5000, height=6000,
 qplot (dm$Stage,dm$delka,
        geom="boxplot",
       xlab=substitute("Instar"),
-      ylab=substitute ("Length (mm)"))
+      ylab=substitute ("Width (mm)"))
 dev.off()
 
 
