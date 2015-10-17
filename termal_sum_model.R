@@ -1,5 +1,5 @@
 rm(list = ls())
-data = read.csv("Data/cholevinae_full.csv", header=TRUE, sep = ";") #Hours degrees
+data = read.csv("Data/cholevinae_full_added.csv", header=TRUE, sep = ";") #Hours degrees
 #data = read.csv("Data/cholevinae_full_dd1.csv", header=TRUE, sep = ";") #Day degrees
 head(data)
 summary(data)
@@ -11,11 +11,14 @@ data_13 = data [data$year=="2013",] # data for 2013
 library(ggplot2)
 library(gridExtra)
 
+# IT IS CRUCIAL to exclude any data which are off (to improve the model)
+# Tmin should not be higher than my experimental temperature...
 #Tmin + SET - DT~D
 lm.1=lm(data_13$DT_egg~data_13$egg)
 summary(lm.1)
 lm.2=lm(data_13$DT_L1~data_13$L1)
 summary(lm.2)
+plot (data_13$DT_L1~data_13$L1)
 lm.3=lm(data$DT_L2~data$L2)
 summary(lm.3)
 lm.4=lm(data$DT_L3 ~data$L3)

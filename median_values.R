@@ -7,6 +7,7 @@ class(data$DT)
 class (data$temp)
 data$temp = as.factor(data$temp)
 library(ggplot2)
+install.packages("gridExtra")
 library(gridExtra)
 
 #Tmin + SET - DT~D

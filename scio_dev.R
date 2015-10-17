@@ -1,4 +1,7 @@
 rm(list = ls())
+install.packages(c("rgbif", "raster", "maptools", "XML","rgdal", "dismo", "sqldf",
+                   "maps", "testthat", "adehabitatsHS", "roxygen2", "spocc",
+                   "rJava", "rworldmap","ggmap"))
 library (rgbif) #mrtvy
 library (raster) #OK
 library (maptools) #nevim
@@ -16,7 +19,6 @@ library (rworldmap) #OK
 newmap = getMap(resolution="low") #function from package rworldmap
 install.packages("ggmap")
 
-head (coord.unfiltered)
 # #RAW data from GBIF (only records with coordinates and you should set up upper limit of them)
 # Sciod.watsoni<- occ_search(scientificName = "Sciodrepoides watsoni",
 #                            hasCoordinate= TRUE, limit = 3215)
@@ -82,6 +84,7 @@ coord.unfiltered <- cbind (coord.long, coord.lat)
 #map of s. watsoni occurence in Europe
 library(ggmap)
 map=get_map (location="Europe", zoom=4)
+?"ggmap"
 coord.unfiltered = data.frame (coord.unfiltered)
 
 tiff (filename="exports/sciodrepoides_occurence.tiff", 
