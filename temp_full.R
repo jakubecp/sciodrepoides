@@ -1,7 +1,7 @@
 #DATA loading, filtering and reshaping
 
 rm(list = ls())
-data = read.csv("Data/cholevinae_full.csv", header=TRUE, sep = ";")
+data = read.csv("Data/cholevinae_full.csv", header=TRUE, sep = ";") #old dataset
 head(data)
 summary(data)
 class(data$DT_egg)
@@ -159,11 +159,11 @@ dev.off()
 
 #Plot of mean mortality for each treatment
 #First Instar mortality
-mort_15 <-(1-mean(data_t15$mortality_L1))*100 #until L3
-mort_18 <-(1-mean(data_t18$mortality_L1))*100 #until L3
-mort_21 <-(1-mean(data_t21$mortality_L1))*100 #until L3
-mort_25 <-(1-mean(data_t25$mortality_L1))*100 #until L3
-mort_28 <-100 #until L3
+mort_15 <-(1-mean(data_t15$mortality_L1))*100 #until L2
+mort_18 <-(1-mean(data_t18$mortality_L1))*100 #until L2
+mort_21 <-(1-mean(data_t21$mortality_L1))*100 #until L2
+mort_25 <-(1-mean(data_t25$mortality_L1))*100 #until L2
+mort_28 <-100 #until L2
 mort0 <- c(mort_15, mort_18, mort_21, mort_25)
 temp0 <- c(15,18,21,25)
 plot (mort0~temp0, type="o" , col="black", pch=16, 
