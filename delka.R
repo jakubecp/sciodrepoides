@@ -22,15 +22,23 @@ qqnorm(data_l3$delka)
 qqline(data_l3$delka)
 
 #basic characteristics of dataset
-mean (data_l1$delka)
-mean (data_l2$delka)
-mean (data_l3$delka)
+a1=mean (data_l1$delka)
+a2=mean (data_l2$delka)
+a3=mean (data_l3$delka)
 
-sd (data_l1$delka)
-sd (data_l2$delka)
-sd (data_l3$delka)
+s1=sd (data_l1$delka)
+s2=sd (data_l2$delka)
+s3=sd (data_l3$delka)
 
+n1=length (data_l1$delka)
+n2=length (data_l2$delka)
+n3=length (data_l3$delka)
 
+error <- qt(0.975,df=n1-1)*s1/sqrt(n1)
+
+IQR(data_l1$delka, na.rm = TRUE, type = 1)
+IQR(data_l2$delka, na.rm = TRUE, type = 1)
+IQR(data_l3$delka, na.rm = TRUE, type = 1)
 #data renaming
 #renaming factors for legend
 dm = data
@@ -74,3 +82,19 @@ summary (data_l2$delka)
 summary (data_l3$delka)
 
 
+#larvae from Jan Ruzicka breed together on fish...
+data_outside = read.csv("Data/data_s.watsoni_outside.csv", header=TRUE, sep = ";")
+summary (data_outside)
+L1= c(0.37, 0.36, 0.38, 0.35, 0.36, 0.37,0.36, 0.38, 0.36)
+mean(data_outside$size[data_outside$instar=="L1"],na.rm = TRUE )
+mean(data_outside$size[data_outside$instar=="L2"],na.rm = TRUE )
+mean(data_outside$size[data_outside$instar=="L3"],na.rm = TRUE )
+median(data_outside$size[data_outside$instar=="L1"],na.rm = TRUE )
+median(data_outside$size[data_outside$instar=="L2"],na.rm = TRUE )
+median(data_outside$size[data_outside$instar=="L3"],na.rm = TRUE )
+sd(data_outside$size[data_outside$instar=="L1"],na.rm = TRUE )
+sd(data_outside$size[data_outside$instar=="L2"],na.rm = TRUE )
+sd(data_outside$size[data_outside$instar=="L3"],na.rm = TRUE )
+sd (L1)
+min (L1)
+max (L1)

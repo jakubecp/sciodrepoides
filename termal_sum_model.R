@@ -1,6 +1,7 @@
 rm(list = ls())
 data = read.csv("Data/cholevinae_full_added.csv", header=TRUE, sep = ";") #Hours degrees
 #data = read.csv("Data/cholevinae_full_dd1.csv", header=TRUE, sep = ";") #Day degrees
+data = read.csv("Data/cholevinae_full – kopie.csv", header=TRUE, sep = ";") #new dataset
 head(data)
 summary(data)
 class(data$DT_egg)
@@ -19,7 +20,7 @@ summary(lm.1)
 lm.2=lm(data_13$DT_L1~data_13$L1)
 summary(lm.2)
 plot (data_13$DT_L1~data_13$L1)
-lm.3=lm(data$DT_L2~data$L2)
+lm.3=lm(data_13$DT_L2~data_13$L2)
 summary(lm.3)
 lm.4=lm(data$DT_L3 ~data$L3)
 summary(lm.4)
@@ -27,6 +28,43 @@ lm.5=lm(data$DT_pupae~data$pupae)
 anova (lm.5)
 summary(lm.5)
 
+lm.old.1=lm(data_13$r_egg~data_13$temp)
+summary (lm.old.1)
+a=-6.045e-03
+b=7.503e-04
+-a/b
+1/b
+
+
+
+lm.old.2=lm(data_13$r_l1~data_13$temp)
+summary (lm.old.2)
+a1=-0.0087065
+b1=0.0013934
+-a1/b1
+1/b1
+
+lm.old.3=lm(data_13$r_l2~data_13$temp)
+summary (lm.old.3)
+plot (data$r_l2~data$temp)
+a2=-0.0031954
+b2=0.0008773
+-a2/b2
+1/b2
+
+lm.old.4=lm(data$r_l3~data$temp)
+summary (lm.old.4)
+a3=-1.879e-03
+b3=2.887e-04
+-a3/b3
+1/b3
+
+lm.old.5=lm(data$r_pup~data$temp)
+summary (lm.old.5)
+a4=-0.0031100
+b4=0.0004130
+-a4/b4
+1/b4
 
 #Plot of thermal summation models on DT data
 p1= qplot (data_13$egg,data_13$DT_egg,

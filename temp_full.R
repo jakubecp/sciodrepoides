@@ -1,7 +1,7 @@
 #DATA loading, filtering and reshaping
 
 rm(list = ls())
-data = read.csv("Data/cholevinae_full.csv", header=TRUE, sep = ";") #old dataset
+data = read.csv("Data/cholevinae_full – kopie.csv", header=TRUE, sep = ";") #old dataset
 head(data)
 summary(data)
 class(data$DT_egg)
@@ -37,6 +37,7 @@ length (dev.length$DD[dev.length$Stage == "L3"])
 length (dev.length$DD[dev.length$Stage == "pupae"])
 
 library (ggplot2)
+install.packages ("plotrix")
 library (plotrix)
 
 dev.dur = c(median (dev.length$devel[dev.length$Stage == "egg" & dev.length$temp=="15"]),
@@ -113,46 +114,74 @@ data_13_t25 = data_13 [data_13$temp=="25",] # data for 15°C
 summary (data_13_t25)
 
 #egg
-mean (data_13_t15$egg,na.rm=TRUE)
-mean (data_13_t18$egg,na.rm=TRUE)
-mean (data_13_t21$egg,na.rm=TRUE)
-mean (data_13_t25$egg,na.rm=TRUE)
+mean.dev = c(mean (data_13_t15$egg,na.rm=TRUE),
+mean (data_13_t18$egg,na.rm=TRUE),
+mean (data_13_t21$egg,na.rm=TRUE),
+mean (data_13_t25$egg,na.rm=TRUE),
 #L1
-mean (data_13_t15$L1,na.rm=TRUE)
-mean (data_13_t18$L1,na.rm=TRUE)
-mean (data_13_t21$L1,na.rm=TRUE)
-mean (data_13_t25$L1,na.rm=TRUE)
+mean (data_13_t15$L1,na.rm=TRUE),
+mean (data_13_t18$L1,na.rm=TRUE),
+mean (data_13_t21$L1,na.rm=TRUE),
+mean (data_13_t25$L1,na.rm=TRUE),
 #L2
-mean (data_t15$L2,na.rm=TRUE)
-mean (data_t18$L2,na.rm=TRUE)
-mean (data_t21$L2,na.rm=TRUE)
-mean (data_t25$L2,na.rm=TRUE)
+mean (data_t15$L2,na.rm=TRUE),
+mean (data_t18$L2,na.rm=TRUE),
+mean (data_t21$L2,na.rm=TRUE),
+mean (data_t25$L2,na.rm=TRUE),
 #L3
-mean (data_t15$L3,na.rm=TRUE)
-mean (data_t18$L3,na.rm=TRUE)
-mean (data_t21$L3,na.rm=TRUE)
-mean (data_t25$L3,na.rm=TRUE)
+mean (data_t15$L3,na.rm=TRUE),
+mean (data_t18$L3,na.rm=TRUE),
+mean (data_t21$L3,na.rm=TRUE),
+mean (data_t25$L3,na.rm=TRUE),
 #pupae
-mean (data_t15$pupae,na.rm=TRUE)
-mean (data_t18$pupae,na.rm=TRUE)
-mean (data_t21$pupae,na.rm=TRUE)
-mean (data_t25$pupae,na.rm=TRUE)
+mean (data_t15$pupae,na.rm=TRUE),
+mean (data_t18$pupae,na.rm=TRUE),
+mean (data_t21$pupae,na.rm=TRUE))
 
-
+std.error.dev = c(std.error (data_13_t15$egg,na.rm=TRUE),
+                  std.error (data_13_t18$egg,na.rm=TRUE),
+                  std.error (data_13_t21$egg,na.rm=TRUE),
+                  std.error (data_13_t25$egg,na.rm=TRUE),
+                  #L1
+                  std.error (data_13_t15$L1,na.rm=TRUE),
+                  std.error (data_13_t18$L1,na.rm=TRUE),
+                  std.error (data_13_t21$L1,na.rm=TRUE),
+                  std.error (data_13_t25$L1,na.rm=TRUE),
+                  #L2
+                  std.error (data_t15$L2,na.rm=TRUE),
+                  std.error (data_t18$L2,na.rm=TRUE),
+                  std.error (data_t21$L2,na.rm=TRUE),
+                  std.error (data_t25$L2,na.rm=TRUE),
+                  #L3
+                  std.error (data_t15$L3,na.rm=TRUE),
+                  std.error (data_t18$L3,na.rm=TRUE),
+                  std.error (data_t21$L3,na.rm=TRUE),
+                  std.error (data_t25$L3,na.rm=TRUE),
+                  #pupae
+                  std.error (data_t15$pupae,na.rm=TRUE),
+                  std.error (data_t18$pupae,na.rm=TRUE),
+                  std.error (data_t21$pupae,na.rm=TRUE))
 
 #barplot of development times across temperatures
+#summarySE is function defined in script summarySE.R which is preparing data to
+#be ploted with SE or confidence intervals...
+sumary.dev = summarySE (dev.length, 
+                        measurevar="devel", groupvars=c("Stage","temp") )
+
 str(dev.length)
 dev.length$intr = interaction (dev.length$Stage, dev.length$temp)
-
 
 tiff (filename="exports/sciodrepoides_mean_dev_time.tiff", 
       width=5000, height=5000, 
       compression="lzw", res= 800)
-p = ggplot (dev.length, aes (y=devel, x=temp, fill=Stage))
+p = ggplot (sumary.dev, aes (y=devel, x=temp, fill=Stage))
 p + stat_summary(fun.y=mean, geom="bar", position=position_dodge())+
   xlab("Experimental temperature (°C)")+
   ylab("Developmental time")+
-  scale_fill_brewer(type="seq", palette=8)
+  scale_fill_brewer(type="seq", palette=8)+
+  geom_errorbar(aes(ymin=devel, ymax=devel+se),
+                width=.2,                    # Width of the error bars
+                position=position_dodge(.9))
 dev.off()
 
 
@@ -319,6 +348,7 @@ tmin_13 = data.frame (tmin1_13,tmin2_13)
 
 
 #Tmin + SET - DT~D
+data = read.csv("Data/medians.csv", header=TRUE, sep = ";") #old dataset
 lm.1=lm(data_13$DT_egg~data_13$egg)
 summary(lm.1)
 lm.2=lm(data_13$DT_L1~data_13$L1)
@@ -328,6 +358,19 @@ summary(lm.3)
 lm.4=lm(data$DT_L3 ~data$L3)
 summary(lm.4)
 lm.5=lm(data$DT_pupae~data$pupae)
+summary(lm.5)
+
+#Tmin + SET - DT~D
+data = read.csv("Data/medians.csv", header=TRUE, sep = ";") #old dataset
+lm.1=lm(data$DT[data$stage=="egg"]~data$dev.dur[data$stage=="egg"])
+summary(lm.1)
+lm.2=lm(data$DT[data$stage=="L1"]~data$dev.dur[data$stage=="L1"])
+summary(lm.2)
+lm.3=lm(data$DT[data$stage=="L2"]~data$dev.dur[data$stage=="L2"])
+summary(lm.3)
+lm.4=lm(data$DT[data$stage=="L3"]~data$dev.dur[data$stage=="L3"])
+summary(lm.4)
+lm.5=lm(data$DT[data$stage=="pupae"]~data$dev.dur[data$stage=="pupae"])
 summary(lm.5)
 
 
