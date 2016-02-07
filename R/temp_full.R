@@ -6,6 +6,22 @@ head(data)
 summary(data)
 class(data$DT_egg)
 class (data$temp)
+
+#Bayes analysis - experiment
+library (rstan)
+#set up processors and ram for the use
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+
+library (rstanarm)
+mm <- stan_glm (data$DT_egg~data$egg+data$loc+year, data=data, prior=normal (0, 8)) # GLM model 
+mm  #===> Results
+pp_check (mm, "dist", nreps=80) #graph
+summary (mm)
+
+library(shinystan) # still do not know how to use this :)
+
+
 data_12 = data [data$year=="2012",] # data for 2012
 data_13 = data [data$year=="2013",] # data for 2013
 data_t15 = data [data$temp=="15",] # data for 15°C
@@ -90,6 +106,7 @@ p + geom_boxplot() +
   ylab("Development time (h)")
 dev.off()
   
+
 
 #mean development time and its standard errors
 se <- function(x) sqrt(var(x)/length(x))
