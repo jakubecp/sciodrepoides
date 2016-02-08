@@ -14,7 +14,7 @@ rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
 library (rstanarm)
-mm <- stan_glm (data$DT_egg~data$egg+data$loc+year, data=data, prior=normal (0, 8)) # GLM model 
+mm <- stan_glm (DT_egg~egg, data=data_13, prior=normal (0, 8)) # GLM model 
 mm  #===> Results
 pp_check (mm, "dist", nreps=80) #graph
 summary (mm)
