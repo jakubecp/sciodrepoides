@@ -6,3 +6,5 @@
 # install.packages("brms")
 library(brms)
 library(rethinking)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
