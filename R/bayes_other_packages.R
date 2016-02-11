@@ -1,0 +1,8 @@
+# library(devtools)
+# install_github("paul-buerkner/brms")
+# install.packages(c("coda","mvtnorm","devtools","loo"))
+# devtools::install_github("rmcelreath/rethinking")
+# install.packages("devtools")
+# install.packages("brms")
+library(brms)
+library(rethinking)
