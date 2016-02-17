@@ -1,3 +1,5 @@
+library(checkpoint)
+checkpoint("2015-02-11") ## or any date in YYYY-MM-DD format after 2014-09-17
 rm(list = ls())
 data = read.csv("Data/sciodrepoides_delka_r.csv", header=TRUE, sep = ";")
 data_l1 = read.csv ("Data/sciodrepoides_delka_L1.csv", header=TRUE, sep = ";")
@@ -14,13 +16,18 @@ summary (data)
 library(ggplot2)
 
 #NORMALITA
+X11()
+par(mfrow=c(2,2))
 qqnorm(data_l1$delka)
 qqline(data_l1$delka)
 qqnorm(data_l2$delka)
 qqline(data_l2$delka)
 qqnorm(data_l3$delka)
 qqline(data_l3$delka)
-
+str(data)
+#model
+mod1 <- lm(delka ~ teplota + oblast, data=data_l1)
+summary (mod1)
 #basic characteristics of dataset
 a1=mean (data_l1$delka)
 a2=mean (data_l2$delka)
