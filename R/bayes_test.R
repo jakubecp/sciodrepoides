@@ -14,18 +14,10 @@ rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
 #loading data
-data = read.csv("Data/sciodrepoides_data.csv", header=TRUE, sep = ";") #old dataset
+data = read.csv("Data/sciodrepoides_data.csv", header=TRUE, sep = ";", na.string="NA") #old dataset
 head(data)
-#reshaping data
-# reshaping the data to be in tidy format
-# library(dplyr) # manipulation with original data
-# library (lazyeval) # manipulation with original data
-# library(tidyr) # manipulation with original data
-# library(ggplot2) # plotting graphs
-# library(Rmisc) # summarySE function for SE and CI calcul. and ploting
-# library (broom)
 
-#treat will be left out and not melted, but rest will be
+#creat tidy data
 substr <- melt (data, id=c("indiv","year", "loc", "temp"),factorsAsStrings=F) 
 names (substr) <- c("ID", "year", "loc", "temp", "stage", "devel") #meaningful names of variables
 
