@@ -1,6 +1,4 @@
 rm(list = ls())
-data = read.csv("Data/cholevinae_full_added.csv", header=TRUE, sep = ";") #Hours degrees
-#data = read.csv("Data/cholevinae_full_dd1.csv", header=TRUE, sep = ";") #Day degrees
 data = read.csv("Data/cholevinae_full – kopie.csv", header=TRUE, sep = ";") #new dataset
 head(data)
 summary(data)

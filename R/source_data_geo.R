@@ -61,8 +61,7 @@ for (i in 1:n) {
   cz.long[i]=dms2deg (as.character (data.sw[i,31]), sep="DMS")
 }
 
-#made a data.frame from my data (they were in right format), Jan's data
-#and Gbif data
+#made a data.frame from my data (they were in right format), Jan Ruzicka's data and Gbif data
 coord.sc <- data.frame (long=data.sw$long[40:46], lat=data.sw$lat[40:46])
 coord.sc2 <- data.frame (long = cz.long, lat = cz.lat)
 coord.full <- rbind (coord.sc2, coord.sc)

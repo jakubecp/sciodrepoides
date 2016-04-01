@@ -7,21 +7,6 @@ summary(data)
 class(data$DT_egg)
 class (data$temp)
 
-#Bayes analysis - experiment
-library (rstan)
-#set up processors and ram for the use
-rstan_options(auto_write = TRUE)
-options(mc.cores = parallel::detectCores())
-
-library (rstanarm)
-mm <- stan_glm (DT_egg~egg, data=data_13, prior=normal (0, 8)) # GLM model 
-mm  #===> Results
-pp_check (mm, "dist", nreps=80) #graph
-summary (mm)
-
-library(shinystan) # still do not know how to use this :)
-
-
 data_12 = data [data$year=="2012",] # data for 2012
 data_13 = data [data$year=="2013",] # data for 2013
 data_t15 = data [data$temp=="15",] # data for 15°C
@@ -53,7 +38,6 @@ length (dev.length$DD[dev.length$Stage == "L3"])
 length (dev.length$DD[dev.length$Stage == "pupae"])
 
 library (ggplot2)
-install.packages ("plotrix")
 library (plotrix)
 
 dev.dur = c(median (dev.length$devel[dev.length$Stage == "egg" & dev.length$temp=="15"]),
@@ -182,25 +166,25 @@ std.error.dev = c(std.error (data_13_t15$egg,na.rm=TRUE),
 #barplot of development times across temperatures
 #summarySE is function defined in script summarySE.R which is preparing data to
 #be ploted with SE or confidence intervals...
-sumary.dev = summarySE (dev.length, 
+sumary.dev <-  summarySE (dev.length, 
                         measurevar="devel", groupvars=c("Stage","temp") )
 
 str(dev.length)
 dev.length$intr = interaction (dev.length$Stage, dev.length$temp)
 
-tiff (filename="exports/sciodrepoides_mean_dev_time.tiff", 
-      width=5000, height=5000, 
-      compression="lzw", res= 800)
-p = ggplot (sumary.dev, aes (y=devel, x=temp, fill=Stage))
+pdf ("exports/Fig.6.pdf", width=10, height=8)
+p = ggplot (sumary.dev, aes (y=devel, x=temp, fill=Stage, label=Stage))
 p + stat_summary(fun.y=mean, geom="bar", position=position_dodge())+
   xlab("Experimental temperature (°C)")+
   ylab("Developmental time")+
   scale_fill_brewer(type="seq", palette=8)+
-  geom_errorbar(aes(ymin=devel, ymax=devel+se),
-                width=.2,                    # Width of the error bars
-                position=position_dodge(.9))
-dev.off()
+  # geom_errorbar(aes(ymin=devel, ymax=devel+se),
+  #               width=.2,                    # Width of the error bars
+  #               position=position_dodge(.9))+
+  geom_text(aes(), position = position_dodge(0.9), size=3, vjust = -0.5)+
+  theme(legend.position="none")
 
+dev.off()
 
 
 #Plot of mean mortality for each treatment

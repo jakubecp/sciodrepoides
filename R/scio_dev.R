@@ -2,53 +2,34 @@ rm(list = ls())
 install.packages(c("rgbif", "raster", "maptools", "XML","rgdal", "dismo", "sqldf",
                    "maps", "testthat", "adehabitatsHS", "roxygen2", "spocc",
                    "rJava", "rworldmap","ggmap"))
-library (rgbif) #mrtvy
+library (rgbif) #
 library (raster) #OK
-library (maptools) #nevim
-library (XML) #mrtvy
-library (rgdal) #mrtvy
+library (maptools) 
+library (XML) #
+library (rgdal) #
 library (dismo) #OK
 library (sqldf) #OK
 library (maps) #OK
 library (testthat) #OK
 library (adehabitatHS) #OK
 library (roxygen2) #OK
-library (spocc) #mrtvy
+library (spocc) #
 library (rJava) #OK
 library (rworldmap) #OK
 newmap = getMap(resolution="low") #function from package rworldmap
 install.packages("ggmap")
 
-# #RAW data from GBIF (only records with coordinates and you should set up upper limit of them)
-# Sciod.watsoni<- occ_search(scientificName = "Sciodrepoides watsoni",
-#                            hasCoordinate= TRUE, limit = 3215)
-# #coordinates of observations (filter out NAs and obvious mistakes!)
-# coord <- data.frame (long = Sciod.watsoni$data$decimalLongitude ,
-#                      lat= Sciod.watsoni$data$decimalLatitude)
-# X11()
-# plot (coord)
-# plot (newmap, add=T)
-
-## SPOCC SEARCH - zmenit na Sciodrepoides watsoni az na to bude cas a asi 
-#sloucit s daty z CR
+## SPOCC SEARCH 
 scio.gbif= occ (query="Sciodrepoides watsoni", 
                     from="gbif", 
                  gbifopts=list(hasCoordinate=TRUE)
                     ,limit= 5000)
 
-# sciod.bison = occ (query="Sciodrepoides watsoni", 
-#                    from="bison", 
-#                    bisonopts=list(hasCoordinate=TRUE),
-#                    limit= 5000)
-
-
 scio.gbif=occ2df(scio.gbif)
-# scio.bison=occ2df(sciod.bison)
 
 coord.gbif = data.frame (long=scio.gbif$longitude,
                           lat=scio.gbif$latitude)
-# coord.bison = data.frame (long=scio.bison$longitude,
-#                           lat=scio.bison$latitude)
+
 
 # ## solution for transformation of DMS to decimal degrees
 ## with celestila packages and function dms2deg
