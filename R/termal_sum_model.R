@@ -94,23 +94,22 @@ p5= qplot (data$pupae,data$DT_pupae,
            ylab=substitute("DT"),
            main="Pupae")
 a5= p5 + stat_smooth(method="lm", se=TRUE, colour="black")
-#tiff (filename="exports/sciodrepoides_development.tiff", 
-#      width=8000, height=12000, 
-#      compression="lzw", res= 800)
-grid.arrange (a1,a2, a3, a4, a5, ncol=3)
-#dev.off()
+pdf ("exports/Fig.7b.pdf", 
+     width=8000, height=12000)
+grid.arrange (a1,a2, a3, a4, a5, ncol=2)
+dev.off()
 
-#COMPARISON OF TWO METHODS IN GRAPHICAL WAY
-t=11.3997
-k=929.3538
-lm.2=lm(data_13$r_egg~data_13$temp)
-summary (lm.2)
-#Plot of thermal summation models on 1/D 
-plot(data_13$r_egg~data_13$temp, 
-     ylab='Developmental rate(1/D)',
-     xlab='Temperature (°C) ', 
-     main="Egg",
-     ylim=c(0,0.02),
-     xlim=c(0,25))
-abline (a=-(t/k), b=1/k, col='green', lwd=1)
-abline (lm.2)
+# #COMPARISON OF TWO METHODS IN GRAPHICAL WAY
+# t=11.3997
+# k=929.3538
+# lm.2=lm(data_13$r_egg~data_13$temp)
+# summary (lm.2)
+# #Plot of thermal summation models on 1/D 
+# plot(data_13$r_egg~data_13$temp, 
+#      ylab='Developmental rate(1/D)',
+#      xlab='Temperature (°C) ', 
+#      main="Egg",
+#      ylim=c(0,0.02),
+#      xlim=c(0,25))
+# abline (a=-(t/k), b=1/k, col='green', lwd=1)
+# abline (lm.2)

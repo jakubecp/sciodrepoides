@@ -72,7 +72,7 @@ tiff (filename="exports/sciodrepoides_occurence.tiff",
       width=2000, height=2000, 
       compression="lzw", res= 300)
 sciod.occur=  ggmap(map)+
-  geom_point (aes (x= coord.long, y = coord.lat), data = coord.unfiltered)+
-  xlab("")+
+  geom_point (aes (x= coord.long, y = coord.lat), data = coord.unfiltered, alpha = 0.5)+
+  xlab("")+ 
   ylab("")
 dev.off()
